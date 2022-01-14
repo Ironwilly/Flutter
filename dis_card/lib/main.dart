@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    SizedBox(height: 15),
                     Text("20:55",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     Text("LLEGADA", style: TextStyle(color: Colors.black)),
+                    SizedBox(height: 15),
                   ],
                 ),
                 SizedBox(width: 70),
