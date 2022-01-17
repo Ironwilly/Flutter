@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Card(
-        margin: EdgeInsets.only(top: 150.00, bottom: 240, left: 10, right: 10),
+        margin: EdgeInsets.only(top: 250.00, bottom: 240, left: 10, right: 10),
         elevation: 4,
         child: Center(
           child: Column(
