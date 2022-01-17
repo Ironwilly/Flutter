@@ -63,6 +63,10 @@ flutter:
   assets:
   
     - assets/images/c1.png
+    - assets/images/frio.png
+    - assets/images/maleta.png
+    - assets/images/palanca.png
+    - assets/images/person.png
     
   #   - images/a_dot_ham.jpeg
 
