@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         itemCount: items.length,
         itemBuilder: (context, index) {
           return Card(
+            elevation: 4,
             child: Column(
               children: [
                 Row(

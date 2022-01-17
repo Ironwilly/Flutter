@@ -32,7 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Card(
+        body: Container(
+      child: Card(
         margin: EdgeInsets.only(top: 250.00, bottom: 240, left: 10, right: 10),
         elevation: 4,
         child: Center(
@@ -149,6 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
