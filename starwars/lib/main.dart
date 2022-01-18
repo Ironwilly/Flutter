@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: const EdgeInsets.all(10.0),
                         child: Text(items.elementAt(index).name.toUpperCase(),
                             style: const TextStyle(
-                                fontSize: 1, fontWeight: FontWeight.bold))),
+                                fontSize: 15, fontWeight: FontWeight.bold))),
                   ])));
             },
           ),
