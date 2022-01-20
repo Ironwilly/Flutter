@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:starwars/models/planets_response.dart';
@@ -48,7 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Star Wars"),
+        title: const Text(
+          "Star Wars",
+          style: TextStyle(fontFamily: 'starwars'),
+        ),
       ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -65,13 +69,47 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Drawer Header'),
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: const Text(
+                'Personajes',
+                style: TextStyle(
+                    fontFamily: 'Jedi',
+                    color: Colors.red,
+                    fontSize: 30,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black,
+                      ),
+                    ]),
+              ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                              body: SizedBox(
+                                height: 250,
+                                child: FutureBuilder<List<Person>>(
+                                    future: items,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return _personList(snapshot.data!);
+                                      } else if (snapshot.hasError) {
+                                        return Text('${snapshot.error}');
+                                      }
+                                      {
+                                        return const Text("buscando");
+                                      }
+                                    }),
+                              ),
+                            )));
               },
             ),
             ListTile(
-                title: const Text('Item 2'),
+                title: const Text(
+                  'Planetas',
+                  style: TextStyle(
+                      fontFamily: 'Jedi', color: Colors.red, fontSize: 30),
+                ),
                 onTap: () =>
                     // Update the state of the app
                     // ...
@@ -79,7 +117,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Text("asi funciona")))),
+                            builder: (context) => Scaffold(
+                                  body: SizedBox(
+                                    height: 250,
+                                    child: FutureBuilder<List<Planets>>(
+                                        future: items2,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return _planetList(snapshot.data!);
+                                          } else if (snapshot.hasError) {
+                                            return Text('${snapshot.error}');
+                                          }
+                                          {
+                                            return const Text("buscando");
+                                          }
+                                        }),
+                                  ),
+                                )))),
           ],
         ),
       ),
@@ -107,20 +161,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _personItem(Person person, int index) {
     return Card(
+        elevation: 4,
         child: Column(children: [
-      Container(
-          child: CircleAvatar(
-        backgroundImage: NetworkImage(
-          'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
-        ),
-        radius: 100,
-      )),
-      Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(person.name,
-              style:
-                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)))
-    ]));
+          Container(
+            child: Image.network(
+              'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
+              scale: 3,
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(person.name,
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold)))
+        ]));
   }
 
   Future<List<Planets>> fetchPlanets() async {
