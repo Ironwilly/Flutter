@@ -48,50 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("H"),
-      ),
-      body: SizedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              child: Card(
-                child: SizedBox(
-                  height: 250,
-                  child: FutureBuilder<List<Person>>(
-                      future: items,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return _personList(snapshot.data!);
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-
-                        return const CircularProgressIndicator();
-                      }),
-                ),
-              ),
-            ),
-            Container(
-              child: Card(
-                child: SizedBox(
-                  height: 250,
-                  child: FutureBuilder<List<Planets>>(
-                      future: items2,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return _planetList(snapshot.data!);
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-
-                        return const CircularProgressIndicator();
-                      }),
-                ),
-              ),
-            ),
-          ],
-        ),
+        title: const Text("Star Wars"),
       ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -114,14 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
+                title: const Text('Item 2'),
+                onTap: () =>
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Text("asi funciona")))),
           ],
         ),
       ),
