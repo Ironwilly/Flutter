@@ -1,5 +1,5 @@
 import 'package:bottom_navigation_bar/pages/home_page.dart';
-import 'package:bottom_navigation_bar/pages/meme_page.dart';
+import 'package:bottom_navigation_bar/pages/people_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/people': (context) => const PeoplePage(),
+      },
     );
   }
 }
@@ -36,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    MemePage(),
+    PeoplePage(),
     HomePage(),
     Text('probando esto')
   ];
@@ -60,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Memes',
+            label: 'People',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),

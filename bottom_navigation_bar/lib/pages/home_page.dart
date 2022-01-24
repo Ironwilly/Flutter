@@ -14,8 +14,8 @@ class HomePage extends StatefulWidget {
       body: Center(
         child: Column(children: [
           ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/meme'),
-              child: const Text('Ir a memes')),
+              onPressed: () => Navigator.pushNamed(context, '/people'),
+              child: const Text('Ir a people')),
         ]),
       ),
     );

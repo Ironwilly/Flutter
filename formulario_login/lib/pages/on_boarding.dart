@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulario_login/pages/login.dart';
+import 'package:formulario_login/pages/registrer.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -92,6 +93,11 @@ class _OnBoardingState extends State<OnBoarding> {
                             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
                           ),
                           onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Registrer()),
+                            );
                             print('Pressed');
                           },
                         ),

@@ -7,11 +7,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Form Validation Demo';
+    const appTitle = 'Formulario';
 
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
+        backgroundColor: Color.fromRGBO(210, 210, 210, 1),
         appBar: AppBar(
           title: const Text(appTitle),
         ),
@@ -21,7 +22,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Create a Form widget.
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -31,51 +31,180 @@ class Login extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
 class MyCustomFormState extends State<Login> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+
+  get child => null;
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
-                }
-              },
-              child: const Text('Submit'),
+    return Scaffold(
+        backgroundColor: Color.fromRGBO(235, 239, 244, 1),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Hello Again!',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
-      ),
-    );
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 90.0),
+              child: Text(
+                "Welcome back you've been missed!",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    margin: EdgeInsets.only(top: 50),
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Username',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 300,
+                    margin: EdgeInsets.only(top: 20, bottom: 30),
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        hintText: 'Password',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 170),
+                    child: Text(
+                      'Recovery password',
+                    ),
+                  ),
+                  Container(
+                    width: 300,
+                    height: 50,
+                    margin: EdgeInsets.only(top: 20, bottom: 40),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                        elevation: 0,
+                        primary: Color.fromRGBO(244, 129, 105, 1),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        }
+                      },
+                      child: const Text('Sign in'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text('----- Or continue with -----'),
+            Container(
+              margin: EdgeInsets.only(top: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              width: 4.0),
+                          color: Color.fromRGBO(235, 239, 244, 1)),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/google.png',
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              width: 4.0),
+                          color: Color.fromRGBO(235, 239, 244, 1)),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/apple.png',
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              width: 4.0),
+                          color: Color.fromRGBO(235, 239, 244, 1)),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/facebook.png',
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 50),
+              child: RichText(
+                  text: const TextSpan(children: <TextSpan>[
+                TextSpan(
+                    text: 'Not a member?',
+                    style: TextStyle(color: Colors.black)),
+                TextSpan(
+                    text: ' Register now',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.blue)),
+              ])),
+            )
+          ],
+        ));
   }
 }
