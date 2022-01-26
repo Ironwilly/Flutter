@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/movie.dart';
+import 'pages/movie_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const Movie(),
+        '/': (context) => const MoviePage(),
       },
     );
   }
