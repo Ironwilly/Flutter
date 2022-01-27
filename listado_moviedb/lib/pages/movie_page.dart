@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:listado_moviedb/models/upcoming.dart';
+import 'package:http/http.dart' as http;
 
 class MoviePage extends StatefulWidget {
   const MoviePage({Key? key}) : super(key: key);
@@ -25,98 +24,87 @@ class _MovieState extends State<MoviePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        body: /*Container(
-        margin: EdgeInsets.only(left: 10, bottom: 400),
-        width: 400,
-        height: 800,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Container(
-                  child: Image.asset(
-                    "assets/images/emoji.png",
-                    scale: 35,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
+        body: Container(
+            width: 400,
+            height: 800,
+            child: ListView(shrinkWrap: true, children: <Widget>[
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/emoji.png",
+                      scale: 35,
+                    ),
+                    const Text("      Erik Howel"),
+                    Container(
+                      margin: const EdgeInsets.only(left: 200),
+                      child: IconButton(
+                          icon: const Icon(Icons.connected_tv),
+                          onPressed: () {}),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  width: 200,
+                  height: 100,
+                  child: Text(
+                    'Movie, Series, TV Shows...',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                Container(
-                  child: Text("      Erik Howel"),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 200),
-                  child: IconButton(
-                      icon: Icon(Icons.connected_tv), onPressed: () {}),
-                )
-              ],
-            ),
-            Container(
-              width: 200,
-              child: Text(
-                'Movie, Series, TV Shows...',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              child: Row(
-                children: [
-                  Form(
-                    key: _formKey,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 200,
-                          height: 40,
-                          margin: EdgeInsets.only(top: 50),
-                          color: Colors.white,
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.search),
-                              hintText: ('Search'),
-                              border: OutlineInputBorder(),
+                Row(
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 200,
+                            height: 40,
+                            margin: const EdgeInsets.only(top: 50),
+                            color: Colors.white,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.search),
+                                hintText: ('Search'),
+                                border: OutlineInputBorder(),
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 50, left: 110),
-                          child: IconButton(
-                              icon: Icon(Icons.tune_outlined),
-                              onPressed: () {}),
-                        )
-                      ],
+                          Container(
+                            margin: const EdgeInsets.only(top: 50, left: 110),
+                            child: IconButton(
+                                icon: const Icon(Icons.tune_outlined),
+                                onPressed: () {}),
+                          )
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: SizedBox(
+                    width: 380,
+                    height: 350,
+                    child: FutureBuilder<List<Results>>(
+                        future: items,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return _upcomingList(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+
+                          return const CircularProgressIndicator();
+                        }),
                   ),
-                ],
-              ),
-            ),
-            */
-            Container(
-          child: Row(
-            children: [
-              SizedBox(
-                height: 250,
-                child: FutureBuilder<List<Results>>(
-                    future: items,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return _upcomingList(snapshot.data!);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      return const CircularProgressIndicator();
-                    }),
-              ),
-            ],
-          ),
-        ));
-
-    /*
-      ),
-    );
-    */
+                )
+              ])
+            ])));
   }
 
   Future<List<Results>> fetchUpcoming() async {
@@ -140,19 +128,18 @@ class _MovieState extends State<MoviePage> {
   }
 
   Widget _upcomingItem(Results results) {
-    return Card(
-        child: Column(children: [
-      Container(
-          child: CircleAvatar(
-        backgroundImage: NetworkImage(
-          'https://image.tmdb.org/t/p/w200${results.posterPath}.jpg',
+    return Container(
+      child: Column(children: [
+        Image.network(
+          'https://image.tmdb.org/t/p/w200${results.posterPath}',
+          scale: 2,
         ),
-      )),
-      Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(results.title,
-              style:
-                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)))
-    ]));
+        Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(results.title,
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)))
+      ]),
+    );
   }
 }
