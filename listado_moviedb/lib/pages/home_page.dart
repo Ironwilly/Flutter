@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:listado_moviedb/pages/movie_page.dart';
 
 void main() => runApp(const HomePage());
 
@@ -28,22 +29,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    MoviePage(),
   ];
 
   void _onItemTapped(int index) {

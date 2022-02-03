@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MoviePage(),
+        '/': (context) => const HomePage(),
       },
     );
   }
