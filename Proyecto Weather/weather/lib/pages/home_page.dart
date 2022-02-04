@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/pages/marte_page.dart';
 import 'package:weather/pages/setting_page.dart';
 import 'package:weather/pages/tierra_page.dart';
+import 'package:weather/pages/tierra_ubicacion_page.dart';
 
 void main() => runApp(const HomePage());
 
@@ -31,7 +32,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    TierraPage(),
+    TierraUbicacionPage(),
     MartePage(),
     SettingPage(),
   ];
