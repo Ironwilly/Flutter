@@ -1,3 +1,5 @@
+
+/*
 class Current {
   Current({
     required this.coord,
@@ -221,3 +223,5 @@ class Sys {
     return _data;
   }
 }
+
+*/

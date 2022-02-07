@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:weather/models/current_weather.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather/models/timehour.dart';
 
 class TierraUbicacionPage extends StatefulWidget {
   const TierraUbicacionPage({Key? key}) : super(key: key);
@@ -11,7 +13,14 @@ class TierraUbicacionPage extends StatefulWidget {
 }
 
 class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
-  late Future<List<Weather>> items;
+  late Future<List<Hourly>> items;
+
+  @override
+  void initState() {
+    items = fetchHourly();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,11 +245,11 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
           child: SizedBox(
             width: 380,
             height: 210,
-            child: FutureBuilder<List<Weather>>(
+            child: FutureBuilder<List<Hourly>>(
                 future: items,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return _weatherList(snapshot.data!);
+                    return _hourList(snapshot.data!);
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -272,45 +281,52 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
   }
 }
 
-Future<List<Weather>> fetchWeather() async {
+Future<List<Hourly>> fetchHourly() async {
   final response = await http.get(Uri.parse(
-      'api.openweathermap.org/data/2.5/weather?lat=37.3753501&lon=-6.0250984&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric'));
   if (response.statusCode == 200) {
-    return Current.fromJson(jsonDecode(response.body)).weather;
+    return TimeHour.fromJson(jsonDecode(response.body)).hourly;
   } else {
     throw Exception('Failed to load weather');
   }
 }
 
-Widget _weatherList(List<Weather> weatherList) {
+Widget _hourList(List<Hourly> hourList) {
   return ListView.builder(
     scrollDirection: Axis.horizontal,
-    itemCount: weatherList.length,
+    itemCount: hourList.length,
     itemBuilder: (context, index) {
-      return _weatherItem(weatherList.elementAt(index));
+      return _hourItem(hourList.elementAt(index));
     },
   );
 }
 
-Widget _weatherItem(Weather weather) {
+Widget _hourItem(Hourly hourly) {
   return Flexible(
       child: Container(
     child: Column(children: [
       Image.network(
-        'api.openweathermap.org/data/2.5/weather?lat=37.3753501&lon=-6.0250984&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc',
+        'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric',
         scale: 2,
       ),
       Padding(
           padding: const EdgeInsets.all(10.0),
           child: Container(
             width: 100,
-            child: Text(weather.description,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.fade,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                )),
+            child: Column(
+              children: [
+                Image.network(
+                    'http://openweathermap.org/img/wn/${hourly.weather[0].icon}.png'),
+                Text(hourly.dt.toString()),
+                Text(((hourly.temp - 273).toStringAsFixed(2) + "º"),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.fade,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
           ))
     ]),
   ));
