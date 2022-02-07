@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:weather/models/current_weather.dart';
+import 'package:http/http.dart' as http;
 
 class TierraUbicacionPage extends StatefulWidget {
   const TierraUbicacionPage({Key? key}) : super(key: key);
@@ -8,6 +11,8 @@ class TierraUbicacionPage extends StatefulWidget {
 }
 
 class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
+  late Future<List<Weather>> items;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,6 +232,24 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
           ),
         ),
         Container(
+          margin: EdgeInsets.only(top: 10),
+          child: SizedBox(
+            width: 380,
+            height: 210,
+            child: FutureBuilder<List<Weather>>(
+                future: items,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _weatherList(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+
+                  return const CircularProgressIndicator();
+                }),
+          ),
+        ),
+        Container(
           height: 40,
           margin: EdgeInsets.only(top: 1, bottom: 10),
           decoration: BoxDecoration(),
@@ -247,4 +270,48 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
       ]),
     ));
   }
+}
+
+Future<List<Weather>> fetchWeather() async {
+  final response = await http.get(Uri.parse(
+      'api.openweathermap.org/data/2.5/weather?lat=37.3753501&lon=-6.0250984&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc'));
+  if (response.statusCode == 200) {
+    return Current.fromJson(jsonDecode(response.body)).weather;
+  } else {
+    throw Exception('Failed to load weather');
+  }
+}
+
+Widget _weatherList(List<Weather> weatherList) {
+  return ListView.builder(
+    scrollDirection: Axis.horizontal,
+    itemCount: weatherList.length,
+    itemBuilder: (context, index) {
+      return _weatherItem(weatherList.elementAt(index));
+    },
+  );
+}
+
+Widget _weatherItem(Weather weather) {
+  return Flexible(
+      child: Container(
+    child: Column(children: [
+      Image.network(
+        'api.openweathermap.org/data/2.5/weather?lat=37.3753501&lon=-6.0250984&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc',
+        scale: 2,
+      ),
+      Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            width: 100,
+            child: Text(weather.description,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                )),
+          ))
+    ]),
+  ));
 }
