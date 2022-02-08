@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:weather/models/current_weather.dart';
 import 'package:http/http.dart' as http;
@@ -202,8 +203,9 @@ Widget _hourItem(Hourly hourly) {
     child: Column(
       children: [
         Text(_convertHour(hourly.dt, true)),
-        Image.network(
-            'http://openweathermap.org/img/wn/${hourly.weather[0].icon}.png'),
+        new SvgPicture.asset(
+          'assets/images/icons/${hourly.weather[0].icon}.svg',
+        ),
         Text(((hourly.temp - 273).toStringAsFixed(2) + "º"),
             textAlign: TextAlign.center,
             overflow: TextOverflow.fade,

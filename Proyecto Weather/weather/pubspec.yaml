@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.13
   date_format: ^2.0.5
+  flutter_svg: ^1.0.3
   
 
 dev_dependencies:
@@ -78,6 +79,28 @@ flutter:
     - assets/images/13.png
     - assets/images/14.png
     - assets/images/15.png
+    - assets/images/icons/01d.svg
+    - assets/images/icons/01n.svg
+    - assets/images/icons/02d.svg
+    - assets/images/icons/02n.svg
+    - assets/images/icons/03d.svg
+    - assets/images/icons/03n.svg
+    - assets/images/icons/04d.svg
+    - assets/images/icons/04n.svg
+    - assets/images/icons/09d.svg
+    - assets/images/icons/09n.svg
+    - assets/images/icons/10d.svg
+    - assets/images/icons/10n.svg
+    - assets/images/icons/11d.svg
+    - assets/images/icons/11n.svg
+    - assets/images/icons/13d.svg
+    - assets/images/icons/13n.svg
+    - assets/images/icons/50d.svg
+    - assets/images/icons/50n.svg
+    
+    
+   
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
