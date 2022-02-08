@@ -203,8 +203,11 @@ Widget _hourItem(Hourly hourly) {
     child: Column(
       children: [
         Text(_convertHour(hourly.dt, true)),
-        new SvgPicture.asset(
-          'assets/images/icons/${hourly.weather[0].icon}.svg',
+        //new SvgPicture.asset(
+        //   'assets/images/icons/${hourly.weather[0].icon}.svg'),
+        Image.asset(
+          'assets/images/icons/${hourly.weather[0].icon}.gif',
+          scale: 6,
         ),
         Text(((hourly.temp - 273).toStringAsFixed(2) + "º"),
             textAlign: TextAlign.center,
