@@ -62,19 +62,19 @@ class Current {
     required this.windGust,
     required this.weather,
   });
-  late final int dt;
-  late final int sunrise;
-  late final int sunset;
+  late final dynamic dt;
+  late final dynamic sunrise;
+  late final dynamic sunset;
   late final dynamic temp;
   late final dynamic feelsLike;
-  late final int pressure;
-  late final int humidity;
+  late final dynamic pressure;
+  late final dynamic humidity;
   late final dynamic dewPoint;
   late final dynamic uvi;
-  late final int clouds;
-  late final int visibility;
+  late final dynamic clouds;
+  late final dynamic visibility;
   late final dynamic windSpeed;
-  late final int windDeg;
+  late final dynamic windDeg;
   late final dynamic windGust;
   late final List<Weather> weather;
 
@@ -125,7 +125,7 @@ class Weather {
     required this.description,
     required this.icon,
   });
-  late final int id;
+  late final dynamic id;
   late final String main;
   late final String description;
   late final String icon;
@@ -152,8 +152,8 @@ class Minutely {
     required this.dt,
     required this.precipitation,
   });
-  late final int dt;
-  late final int precipitation;
+  late final dynamic dt;
+  late final dynamic precipitation;
 
   Minutely.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -185,20 +185,20 @@ class Hourly {
     required this.weather,
     required this.pop,
   });
-  late final int dt;
+  late final dynamic dt;
   late final dynamic? temp;
   late final dynamic? feelsLike;
-  late final int pressure;
-  late final int humidity;
+  late final dynamic pressure;
+  late final dynamic humidity;
   late final dynamic dewPoint;
   late final dynamic? uvi;
-  late final int clouds;
-  late final int visibility;
+  late final dynamic clouds;
+  late final dynamic visibility;
   late final dynamic windSpeed;
-  late final int windDeg;
+  late final dynamic windDeg;
   late final dynamic? windGust;
   late final List<Weather> weather;
-  late final int pop;
+  late final dynamic pop;
 
   Hourly.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -259,23 +259,23 @@ class Daily {
     required this.pop,
     required this.uvi,
   });
-  late final int dt;
-  late final int sunrise;
-  late final int sunset;
-  late final int moonrise;
-  late final int moonset;
+  late final dynamic dt;
+  late final dynamic sunrise;
+  late final dynamic sunset;
+  late final dynamic moonrise;
+  late final dynamic moonset;
   late final dynamic moonPhase;
   late final Temp temp;
   late final FeelsLike feelsLike;
-  late final int pressure;
-  late final int humidity;
+  late final dynamic pressure;
+  late final dynamic humidity;
   late final dynamic dewPoint;
   late final dynamic windSpeed;
-  late final int windDeg;
+  late final dynamic windDeg;
   late final dynamic? windGust;
   late final List<Weather> weather;
-  late final int clouds;
-  late final int pop;
+  late final dynamic clouds;
+  late final dynamic pop;
   late final dynamic? uvi;
 
   Daily.fromJson(Map<String, dynamic> json) {
