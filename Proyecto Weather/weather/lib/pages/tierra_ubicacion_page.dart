@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +90,7 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
             children: [
               SizedBox(
                 width: 380,
-                height: 210,
+                height: 130,
                 child: FutureBuilder<List<Hourly>>(
                     future: items,
                     builder: (context, snapshot) {
@@ -106,118 +107,10 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
           ),
         ),
         Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 30, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
-          ),
-        ),
-        Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 1, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
-          ),
-        ),
-        Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 1, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
-          ),
-        ),
-        Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 1, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
-          ),
-        ),
-        Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 1, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
-          ),
-        ),
-        Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 1, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
-          ),
-        ),
-        Container(
           margin: EdgeInsets.only(top: 10),
           child: SizedBox(
             width: 380,
-            height: 210,
+            height: 510,
             child: FutureBuilder<List<Daily>>(
                 future: items3,
                 builder: (context, snapshot) {
@@ -229,24 +122,6 @@ class _TierraUbicacionPageState extends State<TierraUbicacionPage> {
 
                   return const CircularProgressIndicator();
                 }),
-          ),
-        ),
-        Container(
-          height: 40,
-          margin: EdgeInsets.only(top: 1, bottom: 10),
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Enero,4"),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.light_mode),
-                ],
-              ),
-              Text("21º"),
-            ],
           ),
         ),
       ]),
@@ -300,9 +175,12 @@ Widget _dailyItem(Daily daily) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(_convertHour(daily.dt, true)),
-        Text(daily.moonPhase.toString()),
-        Text(daily.weather[0].description)
+        Text(
+          _convertHour(daily.dt, true),
+          style: TextStyle(fontSize: 20),
+        ),
+        Text(daily.moonPhase.toString(), style: TextStyle(fontSize: 20)),
+        Text((daily.weather[0].description), style: TextStyle(fontSize: 20)),
       ],
     ),
   ));
@@ -350,7 +228,10 @@ Widget _hourItem2(Current current) {
         children: [
           Text(((current.temp - 273).toStringAsFixed(0)) + "º",
               style: TextStyle(fontSize: 70, color: Colors.white)),
-          Text('Soleado'),
+          Text(
+            current.weather[0].description,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -366,7 +247,7 @@ Widget _hourItem2(Current current) {
               Icon(Icons.opacity),
               Text("Hum"),
               Text("|"),
-              Text(current.humidity.toString() + " %"),
+              Text(current.humidity.toString() + " %       "),
             ],
           ),
           Row(
@@ -375,7 +256,7 @@ Widget _hourItem2(Current current) {
               Icon(Icons.call_missed_outgoing),
               Text("Ind.UV"),
               Text("|"),
-              Text(current.uvi.toString() + " %"),
+              Text(current.uvi.toString() + " %         "),
             ],
           ),
         ],
