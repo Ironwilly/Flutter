@@ -3,11 +3,10 @@ import 'dart:ffi';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather/models/one_call_model.dart';
 
-import 'package:weather/models/current_weather.dart';
+import 'package:weather/models/weather_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather/models/timehour.dart';
 
 class TierraUbicacionPage extends StatefulWidget {
   const TierraUbicacionPage({Key? key}) : super(key: key);
@@ -134,7 +133,7 @@ Future<List<Hourly>> fetchHourly() async {
   final response = await http.get(Uri.parse(
       'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric'));
   if (response.statusCode == 200) {
-    return TimeHour.fromJson(jsonDecode(response.body)).hourly;
+    return OneCallModel.fromJson(jsonDecode(response.body)).hourly;
   } else {
     throw Exception('Failed to load weather');
   }
@@ -144,7 +143,7 @@ Future<Current> fetchCurrent() async {
   final response = await http.get(Uri.parse(
       'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric'));
   if (response.statusCode == 200) {
-    return TimeHour.fromJson(jsonDecode(response.body)).current;
+    return OneCallModel.fromJson(jsonDecode(response.body)).current;
   } else {
     throw Exception('Failed to load weather');
   }
@@ -154,7 +153,7 @@ Future<List<Daily>> fetchDaily() async {
   final response = await http.get(Uri.parse(
       'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric'));
   if (response.statusCode == 200) {
-    return TimeHour.fromJson(jsonDecode(response.body)).daily;
+    return OneCallModel.fromJson(jsonDecode(response.body)).daily;
   } else {
     throw Exception('Failed to load weather');
   }

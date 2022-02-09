@@ -1,31 +1,27 @@
-class TimeHour {
-  TimeHour({
+class OneCallModel {
+  OneCallModel({
     required this.lat,
     required this.lon,
     required this.timezone,
     required this.timezoneOffset,
     required this.current,
-    required this.minutely,
     required this.hourly,
     required this.daily,
   });
   late final dynamic lat;
   late final dynamic lon;
   late final String timezone;
-  late final int timezoneOffset;
+  late final dynamic timezoneOffset;
   late final Current current;
-  late final List<Minutely> minutely;
   late final List<Hourly> hourly;
   late final List<Daily> daily;
 
-  TimeHour.fromJson(Map<String, dynamic> json) {
+  OneCallModel.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
     lon = json['lon'];
     timezone = json['timezone'];
     timezoneOffset = json['timezone_offset'];
     current = Current.fromJson(json['current']);
-    minutely =
-        List.from(json['minutely']).map((e) => Minutely.fromJson(e)).toList();
     hourly = List.from(json['hourly']).map((e) => Hourly.fromJson(e)).toList();
     daily = List.from(json['daily']).map((e) => Daily.fromJson(e)).toList();
   }
@@ -37,7 +33,6 @@ class TimeHour {
     _data['timezone'] = timezone;
     _data['timezone_offset'] = timezoneOffset;
     _data['current'] = current.toJson();
-    _data['minutely'] = minutely.map((e) => e.toJson()).toList();
     _data['hourly'] = hourly.map((e) => e.toJson()).toList();
     _data['daily'] = daily.map((e) => e.toJson()).toList();
     return _data;
@@ -59,7 +54,6 @@ class Current {
     required this.visibility,
     required this.windSpeed,
     required this.windDeg,
-    required this.windGust,
     required this.weather,
   });
   late final dynamic dt;
@@ -75,7 +69,6 @@ class Current {
   late final dynamic visibility;
   late final dynamic windSpeed;
   late final dynamic windDeg;
-  late final dynamic windGust;
   late final List<Weather> weather;
 
   Current.fromJson(Map<String, dynamic> json) {
@@ -92,7 +85,6 @@ class Current {
     visibility = json['visibility'];
     windSpeed = json['wind_speed'];
     windDeg = json['wind_deg'];
-    windGust = json['wind_gust'];
     weather =
         List.from(json['weather']).map((e) => Weather.fromJson(e)).toList();
   }
@@ -112,7 +104,6 @@ class Current {
     _data['visibility'] = visibility;
     _data['wind_speed'] = windSpeed;
     _data['wind_deg'] = windDeg;
-    _data['wind_gust'] = windGust;
     _data['weather'] = weather.map((e) => e.toJson()).toList();
     return _data;
   }
@@ -147,27 +138,6 @@ class Weather {
   }
 }
 
-class Minutely {
-  Minutely({
-    required this.dt,
-    required this.precipitation,
-  });
-  late final dynamic dt;
-  late final dynamic precipitation;
-
-  Minutely.fromJson(Map<String, dynamic> json) {
-    dt = json['dt'];
-    precipitation = json['precipitation'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['dt'] = dt;
-    _data['precipitation'] = precipitation;
-    return _data;
-  }
-}
-
 class Hourly {
   Hourly({
     required this.dt,
@@ -186,17 +156,17 @@ class Hourly {
     required this.pop,
   });
   late final dynamic dt;
-  late final dynamic? temp;
-  late final dynamic? feelsLike;
+  late final dynamic temp;
+  late final dynamic feelsLike;
   late final dynamic pressure;
   late final dynamic humidity;
   late final dynamic dewPoint;
-  late final dynamic? uvi;
+  late final dynamic uvi;
   late final dynamic clouds;
   late final dynamic visibility;
   late final dynamic windSpeed;
   late final dynamic windDeg;
-  late final dynamic? windGust;
+  late final dynamic windGust;
   late final List<Weather> weather;
   late final dynamic pop;
 
@@ -272,11 +242,11 @@ class Daily {
   late final dynamic dewPoint;
   late final dynamic windSpeed;
   late final dynamic windDeg;
-  late final dynamic? windGust;
+  late final dynamic windGust;
   late final List<Weather> weather;
   late final dynamic clouds;
   late final dynamic pop;
-  late final dynamic? uvi;
+  late final dynamic uvi;
 
   Daily.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -368,7 +338,7 @@ class FeelsLike {
     required this.eve,
     required this.morn,
   });
-  late final dynamic? day;
+  late final dynamic day;
   late final dynamic night;
   late final dynamic eve;
   late final dynamic morn;
