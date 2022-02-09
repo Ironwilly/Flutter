@@ -63,7 +63,8 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
         child: Center(
           child: Text(
             'NO HAY CIUDAD SELECCIONADA',
-            style: TextStyle(color: Colors.red, fontSize: 30),
+            style: TextStyle(
+                color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
           ),
         ),
       ));
@@ -178,18 +179,26 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
 }
 
 Widget name(WeatherModel weatherModel) {
-  return Text(
-    weatherModel.name,
-    style: const TextStyle(color: Colors.white, fontSize: 60),
+  return Container(
+    margin: EdgeInsets.only(left: 20),
+    width: 300,
+    child: Text(
+      weatherModel.name,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 30,
+      ),
+      textAlign: TextAlign.center,
+    ),
   );
 }
 
 Widget _temperature(WeatherModel response) {
   String _selectedDateTime = formatDate(
-      DateTime.now(), [DD, ", ", dd, " ", MM, " ", yyyy],
+      DateTime.now(), [DD, ", ", dd, "00", MM, "00", yyyy],
       locale: const SpanishDateLocale());
 
-  double temperature = (response.main.temp) - 273;
+  double temperature = (response.main.temp);
 
   return Text(
     temperature.toStringAsFixed(1) + '˚C', //curent temperature
@@ -218,19 +227,27 @@ Widget _hourlyList(List<Hourly> hourlyResponse) {
 }
 
 Widget _hourlyItem(Hourly hour, int index) {
-  return Container(
-    width: 100,
-    decoration: BoxDecoration(
-      color: Colors.blue[800]?.withOpacity(0.8),
-    ),
+  return Flexible(
+      child: Container(
     child: Column(
       children: [
-        Text(
-          hour.pressure.toString(),
-        )
+        Text(hour.temp.toString()),
+        //new SvgPicture.asset(
+        //   'assets/images/icons/${hourly.weather[0].icon}.svg'),
+        Image.asset(
+          'assets/images/icons/${hour.weather[0].icon}.gif',
+          scale: 6,
+        ),
+        Text(((hour.temp).toStringAsFixed(2) + "º"),
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.fade,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            )),
       ],
     ),
-  );
+  ));
 }
 
 Widget _hourItem2(Current current) {
@@ -243,7 +260,7 @@ Widget _hourItem2(Current current) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(((current.temp - 273).toStringAsFixed(0)) + "º",
+          Text(((current.temp).toStringAsFixed(0)) + "º",
               style: TextStyle(fontSize: 70, color: Colors.white)),
           Text(
             current.weather[0].description,
@@ -284,7 +301,7 @@ Widget _hourItem2(Current current) {
 
 Widget _dailyList(List<Daily> dailyResponse) {
   return SizedBox(
-    height: 330,
+    height: 360,
     child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: 7,
@@ -294,31 +311,35 @@ Widget _dailyList(List<Daily> dailyResponse) {
   );
 }
 
-Widget _dailyItem(Daily daily, int index) {
-  return Container(
-    width: 100,
-    decoration: BoxDecoration(
-      color: Colors.blue[800]?.withOpacity(0.8),
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+Widget _currentWeatherTime() {
+  String _selectedDateTime = formatDate(
+      DateTime.now(), [DD, ", ", dd, " ", MM, " ", yyyy],
+      locale: const SpanishDateLocale());
+  return Text(_selectedDateTime);
+}
+
+Widget _currentWeatherTime2() {
+  String _selectedDateTime = formatDate(
+      DateTime.now(), [DD, ", ", dd, " ", MM, " "],
+      locale: const SpanishDateLocale());
+  return Text(_selectedDateTime);
+}
+
+Widget _dailyItem(Daily daily, dynamic index) {
+  return Flexible(
+      child: Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const Text("Temp Media: ",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold)),
-        Image.network('http://openweathermap.org/img/wn/' +
-            daily.weather[0].icon +
-            '.png'),
-        Text(daily.temp.day.toString() + "º",
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold)),
+        _currentWeatherTime2(),
+        Image.asset(
+          'assets/images/icons/${daily.weather[0].icon}.gif',
+          scale: 6,
+        ),
+        Text(daily.temp.max.toString() + " Max")
       ],
     ),
-  );
+  ));
 }
 
 Future<WeatherModel> fetchWeather() async {
@@ -329,7 +350,7 @@ Future<WeatherModel> fetchWeather() async {
   latSelected = lat!;
   lngSelected = lng!;
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/weather?lat=${latSelected}&lon=${lngSelected}&appid=b67e3a6f41956f3d2f21725d8148ee93'));
+      'https://api.openweathermap.org/data/2.5/weather?lat=${latSelected}&lon=${lngSelected}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&units=metric'));
   if (response.statusCode == 200) {
     return WeatherModel.fromJson(jsonDecode(response.body));
   } else {
@@ -347,7 +368,7 @@ Future<List<Daily>> fetchDaily() async {
   lngSelected = lng!;
 
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=b67e3a6f41956f3d2f21725d8148ee93&units=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&units=metric'));
   if (response.statusCode == 200) {
     return OneCallModel.fromJson(jsonDecode(response.body)).daily;
   } else {
@@ -365,7 +386,7 @@ Future<List<Hourly>> fetchHourly() async {
   lngSelected = lng!;
 
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=b67e3a6f41956f3d2f21725d8148ee93&units=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&units=metric'));
   if (response.statusCode == 200) {
     return OneCallModel.fromJson(jsonDecode(response.body)).hourly;
   } else {
