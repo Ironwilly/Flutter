@@ -4,6 +4,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/models/geocoding_model.dart';
+import 'package:weather/models/listDays_model.dart';
 import 'package:weather/models/one_call_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/pages/tierra_ubicacion_page.dart';
@@ -99,9 +100,12 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
             Image.asset(
               "assets/images/2.png",
               scale: 5,
-            )
+            ),
           ],
         ),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [_currentWeatherTime()]),
         Container(
           margin: EdgeInsets.only(left: 30, right: 30, bottom: 10, top: 5),
           width: 386,
@@ -193,27 +197,6 @@ Widget name(WeatherModel weatherModel) {
   );
 }
 
-Widget _temperature(WeatherModel response) {
-  String _selectedDateTime = formatDate(
-      DateTime.now(), [DD, ", ", dd, "00", MM, "00", yyyy],
-      locale: const SpanishDateLocale());
-
-  double temperature = (response.main.temp);
-
-  return Text(
-    temperature.toStringAsFixed(1) + '˚C', //curent temperature
-    style: TextStyle(
-      color: temperature <= 0
-          ? Colors.blue
-          : temperature > 0 && temperature <= 15
-              ? Colors.indigo
-              : temperature > 15 && temperature < 30
-                  ? Colors.deepPurple
-                  : Colors.pink,
-    ),
-  );
-}
-
 Widget _hourlyList(List<Hourly> hourlyResponse) {
   return SizedBox(
     height: 250,
@@ -231,14 +214,14 @@ Widget _hourlyItem(Hourly hour, int index) {
       child: Container(
     child: Column(
       children: [
-        Text(hour.temp.toString()),
+        Text(_convertHour(hour.dt, true)),
         //new SvgPicture.asset(
         //   'assets/images/icons/${hourly.weather[0].icon}.svg'),
         Image.asset(
           'assets/images/icons/${hour.weather[0].icon}.gif',
           scale: 6,
         ),
-        Text(((hour.temp).toStringAsFixed(2) + "º"),
+        Text(((hour.temp).toStringAsFixed(0) + "º"),
             textAlign: TextAlign.center,
             overflow: TextOverflow.fade,
             style: const TextStyle(
@@ -260,7 +243,7 @@ Widget _hourItem2(Current current) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(((current.temp).toStringAsFixed(0)) + "º",
+          Text(((current.temp - 273).toStringAsFixed(0)) + "º",
               style: TextStyle(fontSize: 70, color: Colors.white)),
           Text(
             current.weather[0].description,
@@ -319,9 +302,8 @@ Widget _currentWeatherTime() {
 }
 
 Widget _currentWeatherTime2() {
-  String _selectedDateTime = formatDate(
-      DateTime.now(), [DD, ", ", dd, " ", MM, " "],
-      locale: const SpanishDateLocale());
+  String _selectedDateTime =
+      formatDate(DateTime.now(), [DD, " "], locale: const SpanishDateLocale());
   return Text(_selectedDateTime);
 }
 
@@ -331,12 +313,14 @@ Widget _dailyItem(Daily daily, dynamic index) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _currentWeatherTime2(),
+        Text(formatDate(listaDays[index].day, [DD],
+            locale: const SpanishDateLocale())),
         Image.asset(
           'assets/images/icons/${daily.weather[0].icon}.gif',
           scale: 6,
         ),
-        Text(daily.temp.max.toString() + " Max")
+        Text(daily.temp.max.toString() + " Max"),
+        Text(daily.temp.min.toString() + " Min")
       ],
     ),
   ));
@@ -391,5 +375,18 @@ Future<List<Hourly>> fetchHourly() async {
     return OneCallModel.fromJson(jsonDecode(response.body)).hourly;
   } else {
     throw Exception('Failed to load planets');
+  }
+}
+
+DateTime _dtConverter(int timestamp) {
+  return DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+}
+
+_convertHour(int timestamp, bool op) {
+  var result = _dtConverter(timestamp).toString().split(' ');
+  if (op) {
+    return result[1].replaceRange(4, 11, '');
+  } else {
+    return result[0];
   }
 }
