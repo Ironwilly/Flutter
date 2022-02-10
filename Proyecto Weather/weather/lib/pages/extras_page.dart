@@ -22,22 +22,23 @@ Widget build(BuildContext context) {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: const PlaceSelected2(title: 'Flutter Demo Home Page'),
+    home: const ExtrasPage(title: 'Flutter Demo Home Page'),
   );
 }
 
-class PlaceSelected2 extends StatefulWidget {
-  const PlaceSelected2({Key? key, required this.title}) : super(key: key);
+class ExtrasPage extends StatefulWidget {
+  const ExtrasPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<PlaceSelected2> createState() => _MyHomePageState2();
+  State<ExtrasPage> createState() => _MyHomePageState2();
 }
 
-class _MyHomePageState2 extends State<PlaceSelected2> {
+class _MyHomePageState2 extends State<ExtrasPage> {
   late Future<List<Hourly>> items;
   late Future<Current> items2;
   late Future<List<Daily>> items3;
+
   late Future<WeatherModel> currentWeather;
 
   @override
@@ -107,58 +108,10 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [_currentWeatherTime()]),
-        Container(
-          margin: EdgeInsets.only(left: 30, right: 30, bottom: 10, top: 5),
-          width: 386,
-          height: 278,
-          padding:
-              EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10, right: 10),
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(125, 222, 252, 0.4),
-          ),
-          child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: 310,
-                height: 278,
-                child: FutureBuilder<Current>(
-                    future: items2,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return _hourItem2(snapshot.data!);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      return const CircularProgressIndicator();
-                    }),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: 380,
-                height: 130,
-                child: FutureBuilder<List<Hourly>>(
-                    future: items,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return _hourlyList(snapshot.data!);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      return const CircularProgressIndicator();
-                    }),
-              ),
-            ],
-          ),
+        Expanded(
+          child: new Container(
+              margin: const EdgeInsets.only(left: 0, right: 10),
+              child: Divider(color: Colors.black, thickness: 3, indent: 20)),
         ),
         Container(
           margin: EdgeInsets.only(top: 10),
@@ -169,7 +122,7 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
                 future: items3,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return _dailyList(snapshot.data!);
+                    return _dailyList2(snapshot.data!);
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -327,6 +280,44 @@ Widget _dailyItem(Daily daily, dynamic index) {
   ));
 }
 
+Widget _dailyList2(List<Daily> dailyResponse) {
+  return SizedBox(
+    height: 360,
+    child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: 7,
+        itemBuilder: (context, index) {
+          return _dailyItem2(dailyResponse.elementAt(index), index);
+        }),
+  );
+}
+
+Widget _dailyItem2(Daily daily, dynamic index) {
+  return Flexible(
+      child: Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(daily.temp.max.toString() + " Max"),
+        Divider(),
+        Text(daily.temp.min.toString() + " Min"),
+        Divider(),
+        Text(daily.humidity.toString()),
+        Divider(),
+        Text(daily.moonrise.toString()),
+        Divider(),
+        Text(daily.pressure.toString()),
+        Divider(),
+        Text(daily.clouds.toString()),
+        Divider(),
+        Text(daily.uvi.toString()),
+        Divider(),
+        Text(daily.windSpeed.toString()),
+      ],
+    ),
+  ));
+}
+
 Future<WeatherModel> fetchWeather() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var lat = prefs.getDouble('lat');
@@ -394,7 +385,7 @@ _convertHour(int timestamp, bool op) {
 
 Future<Current> fetchCurrent() async {
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric&lang=es'));
   if (response.statusCode == 200) {
     return OneCallModel.fromJson(jsonDecode(response.body)).current;
   } else {

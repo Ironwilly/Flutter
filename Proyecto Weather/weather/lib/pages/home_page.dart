@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/pages/extras_page.dart';
 import 'package:weather/pages/maps_page.dart';
 import 'package:weather/pages/marte_page.dart';
 import 'package:weather/pages/place_select_page.dart';
@@ -34,8 +35,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    TierraUbicacionPage(),
     MapClickPage(),
+    ExtrasPage(title: ''),
     PlaceSelected2(title: '')
   ];
 

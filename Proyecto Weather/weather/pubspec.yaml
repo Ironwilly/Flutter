@@ -83,6 +83,15 @@ flutter:
     - assets/images/13.png
     - assets/images/14.png
     - assets/images/15.png
+    - assets/images/cloud.webp
+    - assets/images/lightning0.webp
+    - assets/images/lightning1.webp
+    - assets/images/lightning2.webp
+    - assets/images/lightning3.webp
+    - assets/images/lightning4.webp
+    - assets/images/rain.webp
+    - assets/images/snow.webp
+    - assets/images/sun.webp
     - assets/images/lugar.jpg
     - assets/images/icons/01d.gif
     - assets/images/icons/01n.gif
