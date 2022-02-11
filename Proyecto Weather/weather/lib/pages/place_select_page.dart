@@ -215,7 +215,11 @@ Widget _hourlyItem(Hourly hour, int index) {
       child: Container(
     child: Column(
       children: [
-        Text(_convertHour(hour.dt, true)),
+        Text(_convertHour(hour.dt, true),
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            )),
         //new SvgPicture.asset(
         //   'assets/images/icons/${hourly.weather[0].icon}.svg'),
         Image.asset(
@@ -245,36 +249,72 @@ Widget _hourItem2(Current current) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(((current.temp - 273).toStringAsFixed(0)) + "º",
-              style: TextStyle(fontSize: 70, color: Colors.white)),
+              style: TextStyle(fontSize: 80, color: Colors.white)),
           Text(
             current.weather[0].description,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Icon(Icons.air),
-              Text("Wind"),
-              Text("|"),
-              Text(current.windSpeed.toString() + " Km/h"),
+              Text("Wind",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text("|",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(current.windSpeed.toString() + " Km/h",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Icon(Icons.opacity),
-              Text("Hum"),
-              Text("|"),
-              Text(current.humidity.toString() + " %       "),
+              Text("Hum",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text("|",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(current.humidity.toString() + " %       ",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Icon(Icons.call_missed_outgoing),
-              Text("Ind.UV"),
-              Text("|"),
-              Text(current.uvi.toString() + " %         "),
+              Text("Ind.UV",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text("|",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(current.uvi.toString() + " %         ",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
             ],
           ),
         ],
@@ -299,7 +339,11 @@ Widget _currentWeatherTime() {
   String _selectedDateTime = formatDate(
       DateTime.now(), [DD, ", ", dd, " ", MM, " ", yyyy],
       locale: const SpanishDateLocale());
-  return Text(_selectedDateTime);
+  return Text(_selectedDateTime,
+      style: const TextStyle(
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+      ));
 }
 
 Widget _currentWeatherTime2() {
@@ -314,14 +358,28 @@ Widget _dailyItem(Daily daily, dynamic index) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(formatDate(listaDays[index].day, [DD],
-            locale: const SpanishDateLocale())),
+        Text(
+            formatDate(
+              listaDays[index].day,
+              [DD],
+              locale: const SpanishDateLocale(),
+            ),
+            style: const TextStyle(
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
         Image.asset(
           'assets/images/icons/${daily.weather[0].icon}.gif',
           scale: 6,
         ),
-        Text(daily.temp.max.toString() + " Max"),
-        Text(daily.temp.min.toString() + " Min")
+        Text(daily.temp.max.toStringAsFixed(0) + "º Max",
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            )),
+        Text(daily.temp.min.toStringAsFixed(0) + "º Min",
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            )),
       ],
     ),
   ));
@@ -394,7 +452,7 @@ _convertHour(int timestamp, bool op) {
 
 Future<Current> fetchCurrent() async {
   final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric'));
+      'https://api.openweathermap.org/data/2.5/onecall?lat=37.3753501&lon=-6.0250984&exclude={part}&appid=f8e79a384cdfa0e8b60cdce1b67fb6dc&unit=metric&lang=es'));
   if (response.statusCode == 200) {
     return OneCallModel.fromJson(jsonDecode(response.body)).current;
   } else {

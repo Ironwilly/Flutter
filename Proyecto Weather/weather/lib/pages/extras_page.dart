@@ -111,7 +111,7 @@ class _MyHomePageState2 extends State<ExtrasPage> {
         Expanded(
           child: new Container(
               margin: const EdgeInsets.only(left: 0, right: 10),
-              child: Divider(color: Colors.black, thickness: 3, indent: 20)),
+              child: Divider(color: Colors.yellow, thickness: 3, indent: 20)),
         ),
         Container(
           margin: EdgeInsets.only(top: 10),
@@ -151,18 +151,6 @@ Widget name(WeatherModel weatherModel) {
   );
 }
 
-Widget _hourlyList(List<Hourly> hourlyResponse) {
-  return SizedBox(
-    height: 250,
-    child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 24,
-        itemBuilder: (context, index) {
-          return _hourlyItem(hourlyResponse.elementAt(index), index);
-        }),
-  );
-}
-
 Widget _hourlyItem(Hourly hour, int index) {
   return Flexible(
       child: Container(
@@ -187,72 +175,15 @@ Widget _hourlyItem(Hourly hour, int index) {
   ));
 }
 
-Widget _hourItem2(Current current) {
-  return Flexible(
-    child: Container(
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(125, 222, 252, 0.4),
-      ),
-      alignment: AlignmentDirectional.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(((current.temp - 273).toStringAsFixed(0)) + "º",
-              style: TextStyle(fontSize: 70, color: Colors.white)),
-          Text(
-            current.weather[0].description,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(Icons.air),
-              Text("Wind"),
-              Text("|"),
-              Text(current.windSpeed.toString() + " Km/h"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(Icons.opacity),
-              Text("Hum"),
-              Text("|"),
-              Text(current.humidity.toString() + " %       "),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(Icons.call_missed_outgoing),
-              Text("Ind.UV"),
-              Text("|"),
-              Text(current.uvi.toString() + " %         "),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _dailyList(List<Daily> dailyResponse) {
-  return SizedBox(
-    height: 360,
-    child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: 7,
-        itemBuilder: (context, index) {
-          return _dailyItem(dailyResponse.elementAt(index), index);
-        }),
-  );
-}
-
 Widget _currentWeatherTime() {
   String _selectedDateTime = formatDate(
       DateTime.now(), [DD, ", ", dd, " ", MM, " ", yyyy],
       locale: const SpanishDateLocale());
-  return Text(_selectedDateTime);
+  return Text(
+    _selectedDateTime,
+    style:
+        TextStyle(fontSize: 30, color: Colors.red, fontWeight: FontWeight.bold),
+  );
 }
 
 Widget _currentWeatherTime2() {
@@ -261,31 +192,12 @@ Widget _currentWeatherTime2() {
   return Text(_selectedDateTime);
 }
 
-Widget _dailyItem(Daily daily, dynamic index) {
-  return Flexible(
-      child: Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(formatDate(listaDays[index].day, [DD],
-            locale: const SpanishDateLocale())),
-        Image.asset(
-          'assets/images/icons/${daily.weather[0].icon}.gif',
-          scale: 6,
-        ),
-        Text(daily.temp.max.toString() + " Max"),
-        Text(daily.temp.min.toString() + " Min")
-      ],
-    ),
-  ));
-}
-
 Widget _dailyList2(List<Daily> dailyResponse) {
   return SizedBox(
     height: 360,
     child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: 7,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return _dailyItem2(dailyResponse.elementAt(index), index);
         }),
@@ -298,21 +210,47 @@ Widget _dailyItem2(Daily daily, dynamic index) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(daily.temp.max.toString() + " Max"),
-        Divider(),
-        Text(daily.temp.min.toString() + " Min"),
-        Divider(),
-        Text(daily.humidity.toString()),
-        Divider(),
-        Text(daily.moonrise.toString()),
-        Divider(),
-        Text(daily.pressure.toString()),
-        Divider(),
-        Text(daily.clouds.toString()),
-        Divider(),
-        Text(daily.uvi.toString()),
-        Divider(),
-        Text(daily.windSpeed.toString()),
+        Text("Temp.Max " + daily.temp.max.toStringAsFixed(0) + "º",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
+        Divider(color: Colors.yellow, thickness: 3, indent: 20),
+        Text("Temp.Min " + daily.temp.min.toStringAsFixed(0) + "º",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
+        Divider(color: Colors.orange, thickness: 3, indent: 20),
+        Text("Humedad " + daily.humidity.toString() + "%",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
+        Divider(color: Colors.yellow, thickness: 3, indent: 20),
+        Text("Presión " + daily.pressure.toString() + " hPa",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
+        Divider(color: Colors.yellow, thickness: 3, indent: 20),
+        Text("%Cielo nublado " + daily.clouds.toString() + "%",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
+        Divider(color: Colors.orange, thickness: 3, indent: 20),
+        Text("Uvi " + daily.uvi.toString() + "%",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
+        Divider(color: Colors.orange, thickness: 3, indent: 20),
+        Text("Veloc. Viento " + daily.windSpeed.toString() + "Km/h",
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            )),
       ],
     ),
   ));
