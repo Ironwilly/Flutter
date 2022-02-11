@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: _title,
       home: MyStatefulWidget(),
     );
@@ -32,8 +33,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     MapClickPage(),
+    PlaceSelected2(title: ''),
     ExtrasPage(title: ''),
-    PlaceSelected2(title: '')
   ];
 
   void _onItemTapped(int index) {
@@ -53,18 +54,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Image.asset("assets/images/3.png"),
-            label: 'Tierra',
+            label: 'Mapa',
           ),
           BottomNavigationBarItem(
             icon: Image.asset("assets/images/4.png"),
-            label: 'Extras',
+            label: 'Tiempo',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
               "assets/images/13.png",
               scale: 4,
             ),
-            label: 'Settings',
+            label: 'Extras',
           ),
         ],
         currentIndex: _selectedIndex,

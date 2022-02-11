@@ -3,11 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/models/geocoding_model.dart';
 import 'package:weather/models/listDays_model.dart';
 import 'package:weather/models/one_call_model.dart';
 import 'package:weather/models/weather_model.dart';
-import 'package:weather/pages/tierra_ubicacion_page.dart';
 
 late Future<List<WeatherModel>> items;
 
@@ -18,6 +16,7 @@ late double lngSelected = 0;
 @override
 Widget build(BuildContext context) {
   return MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
     theme: ThemeData(
       primarySwatch: Colors.blue,
@@ -62,7 +61,7 @@ class _MyHomePageState2 extends State<ExtrasPage> {
               ),
               fit: BoxFit.cover),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             'NO HAY CIUDAD SELECCIONADA',
             style: TextStyle(
@@ -74,15 +73,15 @@ class _MyHomePageState2 extends State<ExtrasPage> {
     return Scaffold(
         body: Container(
       height: 1100,
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(0, 194, 255, 1),
+      decoration: const BoxDecoration(
+          color: Color.fromRGBO(0, 194, 255, 1.6),
           image: DecorationImage(
               image: AssetImage("assets/images/8.png"), fit: BoxFit.cover)),
       // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
       child: ListView(shrinkWrap: true, children: <Widget>[
         Row(
           children: [
-            Icon(Icons.location_on_outlined),
+            const Icon(Icons.location_on_outlined),
             FutureBuilder<WeatherModel>(
               future: currentWeather,
               builder: (context, snapshot) {
@@ -111,10 +110,11 @@ class _MyHomePageState2 extends State<ExtrasPage> {
         Expanded(
           child: new Container(
               margin: const EdgeInsets.only(left: 0, right: 10),
-              child: Divider(color: Colors.yellow, thickness: 3, indent: 20)),
+              child: const Divider(
+                  color: Colors.yellow, thickness: 3, indent: 20)),
         ),
         Container(
-          margin: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.only(top: 10),
           child: SizedBox(
             width: 380,
             height: 510,
@@ -138,14 +138,14 @@ class _MyHomePageState2 extends State<ExtrasPage> {
 
 Widget name(WeatherModel weatherModel) {
   return Container(
-    margin: EdgeInsets.only(left: 20),
+    margin: const EdgeInsets.only(left: 20),
     width: 300,
     child: Text(
       weatherModel.name,
       style: const TextStyle(
-        color: Colors.white,
-        fontSize: 30,
-      ),
+          color: Color.fromARGB(255, 255, 0, 0),
+          fontSize: 35,
+          fontFamily: 'Arch'),
       textAlign: TextAlign.center,
     ),
   );
@@ -181,15 +181,18 @@ Widget _currentWeatherTime() {
       locale: const SpanishDateLocale());
   return Text(
     _selectedDateTime,
-    style:
-        TextStyle(fontSize: 30, color: Colors.red, fontWeight: FontWeight.bold),
+    style: const TextStyle(
+        fontSize: 30,
+        color: Color.fromARGB(255, 0, 0, 0),
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Arch'),
   );
 }
 
 Widget _currentWeatherTime2() {
   String _selectedDateTime =
       formatDate(DateTime.now(), [DD, " "], locale: const SpanishDateLocale());
-  return Text(_selectedDateTime);
+  return Text(_selectedDateTime, style: const TextStyle(fontFamily: 'Arch'));
 }
 
 Widget _dailyList2(List<Daily> dailyResponse) {
@@ -212,45 +215,64 @@ Widget _dailyItem2(Daily daily, dynamic index) {
       children: [
         Text("Temp.Max " + daily.temp.max.toStringAsFixed(0) + "º",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
-        Divider(color: Colors.yellow, thickness: 3, indent: 20),
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontFamily: 'Arch')),
+        const Divider(
+            color: const Color.fromARGB(255, 255, 255, 255),
+            thickness: 1,
+            indent: 20),
         Text("Temp.Min " + daily.temp.min.toStringAsFixed(0) + "º",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
-        Divider(color: Colors.orange, thickness: 3, indent: 20),
+                fontSize: 30,
+                color: Color.fromARGB(255, 253, 253, 253),
+                fontFamily: 'Arch')),
+        const Divider(
+            color: const Color.fromARGB(255, 255, 255, 255),
+            thickness: 1,
+            indent: 20),
         Text("Humedad " + daily.humidity.toString() + "%",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
-        Divider(color: Colors.yellow, thickness: 3, indent: 20),
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontFamily: 'Arch')),
+        const Divider(
+            color: Color.fromARGB(255, 255, 255, 255),
+            thickness: 1,
+            indent: 20),
         Text("Presión " + daily.pressure.toString() + " hPa",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
-        Divider(color: Colors.yellow, thickness: 3, indent: 20),
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontFamily: 'Arch')),
+        const Divider(
+            color: const Color.fromARGB(255, 255, 255, 255),
+            thickness: 1,
+            indent: 20),
         Text("%Cielo nublado " + daily.clouds.toString() + "%",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
-        Divider(color: Colors.orange, thickness: 3, indent: 20),
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontFamily: 'Arch')),
+        const Divider(
+            color: Color.fromARGB(255, 255, 255, 255),
+            thickness: 1,
+            indent: 20),
         Text("Uvi " + daily.uvi.toString() + "%",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
-        Divider(color: Colors.orange, thickness: 3, indent: 20),
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontFamily: 'Arch')),
+        const Divider(
+            // ignore: unnecessary_const
+            color: const Color.fromARGB(255, 255, 255, 255),
+            thickness: 1,
+            indent: 20),
         Text("Veloc. Viento " + daily.windSpeed.toString() + "Km/h",
             style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            )),
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontFamily: 'Arch')),
       ],
     ),
   ));

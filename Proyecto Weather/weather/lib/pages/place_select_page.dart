@@ -3,11 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/models/geocoding_model.dart';
 import 'package:weather/models/listDays_model.dart';
 import 'package:weather/models/one_call_model.dart';
 import 'package:weather/models/weather_model.dart';
-import 'package:weather/pages/tierra_ubicacion_page.dart';
 
 late Future<List<WeatherModel>> items;
 
@@ -18,6 +16,7 @@ late double lngSelected = 0;
 @override
 Widget build(BuildContext context) {
   return MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
     theme: ThemeData(
       primarySwatch: Colors.blue,
@@ -61,7 +60,7 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
               ),
               fit: BoxFit.cover),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             'NO HAY CIUDAD SELECCIONADA',
             style: TextStyle(
@@ -73,7 +72,7 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
     return Scaffold(
         body: Container(
       height: 1100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Color.fromRGBO(0, 194, 255, 1),
           image: DecorationImage(
               image: AssetImage("assets/images/8.png"), fit: BoxFit.cover)),
@@ -81,7 +80,7 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
       child: ListView(shrinkWrap: true, children: <Widget>[
         Row(
           children: [
-            Icon(Icons.location_on_outlined),
+            const Icon(Icons.location_on_outlined),
             FutureBuilder<WeatherModel>(
               future: currentWeather,
               builder: (context, snapshot) {
@@ -107,38 +106,41 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [_currentWeatherTime()]),
-        Container(
-          margin: EdgeInsets.only(left: 30, right: 30, bottom: 10, top: 5),
-          width: 386,
-          height: 278,
-          padding:
-              EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10, right: 10),
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(125, 222, 252, 0.4),
-          ),
-          child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: 310,
-                height: 278,
-                child: FutureBuilder<Current>(
-                    future: items2,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return _hourItem2(snapshot.data!);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
+        Center(
+          child: Container(
+            margin:
+                const EdgeInsets.only(left: 30, right: 30, bottom: 10, top: 5),
+            width: 386,
+            height: 278,
+            padding: const EdgeInsets.only(
+                top: 10.0, bottom: 10.0, left: 10, right: 10),
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(125, 222, 252, 0.4),
+            ),
+            child: Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: 310,
+                  height: 278,
+                  child: FutureBuilder<Current>(
+                      future: items2,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return _hourItem2(snapshot.data!);
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
 
-                      return const CircularProgressIndicator();
-                    }),
-              ),
-            ],
+                        return const CircularProgressIndicator();
+                      }),
+                ),
+              ],
+            ),
           ),
         ),
         Container(
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -161,7 +163,7 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.only(top: 10),
           child: SizedBox(
             width: 380,
             height: 510,
@@ -185,14 +187,14 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
 
 Widget name(WeatherModel weatherModel) {
   return Container(
-    margin: EdgeInsets.only(left: 20),
+    margin: const EdgeInsets.only(left: 20),
     width: 300,
     child: Text(
       weatherModel.name,
       style: const TextStyle(
-        color: Colors.white,
-        fontSize: 30,
-      ),
+          color: Color.fromARGB(255, 255, 0, 0),
+          fontSize: 35,
+          fontFamily: 'Arch'),
       textAlign: TextAlign.center,
     ),
   );
@@ -212,36 +214,31 @@ Widget _hourlyList(List<Hourly> hourlyResponse) {
 
 Widget _hourlyItem(Hourly hour, int index) {
   return Flexible(
-      child: Container(
-    child: Column(
-      children: [
-        Text(_convertHour(hour.dt, true),
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            )),
-        //new SvgPicture.asset(
-        //   'assets/images/icons/${hourly.weather[0].icon}.svg'),
-        Image.asset(
-          'assets/images/icons/${hour.weather[0].icon}.gif',
-          scale: 6,
-        ),
-        Text(((hour.temp).toStringAsFixed(0) + "º"),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.fade,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            )),
-      ],
-    ),
+      child: Column(
+    children: [
+      Text(_convertHour(hour.dt, true),
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          )),
+      //new SvgPicture.asset(
+      //   'assets/images/icons/${hourly.weather[0].icon}.svg'),
+      Image.asset(
+        'assets/images/icons/${hour.weather[0].icon}.gif',
+        scale: 6,
+      ),
+      Text(((hour.temp).toStringAsFixed(0) + "º"),
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.fade,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+    ],
   ));
 }
 
 Widget _hourItem2(Current current) {
   return Flexible(
     child: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromRGBO(125, 222, 252, 0.4),
       ),
       alignment: AlignmentDirectional.center,
@@ -249,72 +246,73 @@ Widget _hourItem2(Current current) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(((current.temp - 273).toStringAsFixed(0)) + "º",
-              style: TextStyle(fontSize: 80, color: Colors.white)),
+              style: const TextStyle(fontSize: 80, color: Colors.white)),
           Text(
             current.weather[0].description,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'Arch'),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.air),
-              Text("Wind",
-                  style: const TextStyle(
+              const Icon(Icons.air),
+              const Text("Wind",
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
-              Text("|",
-                  style: const TextStyle(
+              const Text("|",
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
               Text(current.windSpeed.toString() + " Km/h",
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Arch')),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.opacity),
-              Text("Hum",
-                  style: const TextStyle(
+              const Icon(Icons.opacity),
+              const Text("Hum",
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
-              Text("|",
-                  style: const TextStyle(
+              const Text("|",
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
               Text(current.humidity.toString() + " %       ",
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Arch')),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.call_missed_outgoing),
-              Text("Ind.UV",
-                  style: const TextStyle(
+              const Icon(Icons.call_missed_outgoing),
+              const Text("Ind.UV",
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
-              Text("|",
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
+              const Text("|",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Arch')),
               Text(current.uvi.toString() + " %         ",
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Arch')),
             ],
           ),
         ],
@@ -341,15 +339,7 @@ Widget _currentWeatherTime() {
       locale: const SpanishDateLocale());
   return Text(_selectedDateTime,
       style: const TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
-      ));
-}
-
-Widget _currentWeatherTime2() {
-  String _selectedDateTime =
-      formatDate(DateTime.now(), [DD, " "], locale: const SpanishDateLocale());
-  return Text(_selectedDateTime);
+          fontSize: 25, fontWeight: FontWeight.bold, fontFamily: 'Arch'));
 }
 
 Widget _dailyItem(Daily daily, dynamic index) {
@@ -365,21 +355,26 @@ Widget _dailyItem(Daily daily, dynamic index) {
               locale: const SpanishDateLocale(),
             ),
             style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontFamily: 'Arch')),
         Image.asset(
           'assets/images/icons/${daily.weather[0].icon}.gif',
           scale: 6,
         ),
         Text(daily.temp.max.toStringAsFixed(0) + "º Max",
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            )),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 68, 68, 68),
+                fontFamily: 'Arch')),
         Text(daily.temp.min.toStringAsFixed(0) + "º Min",
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            )),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 68, 68, 68),
+                fontFamily: 'Arch')),
       ],
     ),
   ));
