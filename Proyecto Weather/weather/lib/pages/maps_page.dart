@@ -26,7 +26,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
   _MapClickBodyState();
 
   GoogleMapController? mapController;
-  LatLng _lastTap = LatLng(32.1254865, -6.0520989);
+  LatLng _lastTap = const LatLng(32.1254865, -6.0520989);
   LatLng? _lastLongPress;
 
   @override
