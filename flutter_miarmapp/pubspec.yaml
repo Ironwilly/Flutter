@@ -45,6 +45,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  google_fonts: ^2.2.0
+  flutter_signin_button: ^2.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -68,6 +70,10 @@ flutter:
   assets:
     - assets/images/logo_miarmapp.png
     - assets/images/avatar.jpeg
+    - assets/images/pantalla1.jpg
+    - assets/images/google.png
+    - assets/images/apple.png
+    - assets/images/facebook.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
