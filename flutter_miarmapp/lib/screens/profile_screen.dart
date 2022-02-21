@@ -173,7 +173,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 35,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.grey.shade200),
+                      border:
+                          Border.all(color: Color.fromARGB(255, 0, 183, 255)),
                     ),
                     width: 320,
                     child: TextButton(
@@ -230,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 20,
                     ),
                     Container(
-                        width: 100,
+                        width: 90,
                         height: 150,
                         child: const Image(
                           image: AssetImage("assets/images/miguel.jpg"),
@@ -240,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 20,
                     ),
                     Container(
-                        width: 120,
+                        width: 90,
                         height: 150,
                         child: const Image(
                           image: AssetImage("assets/images/avatar.jpeg"),
