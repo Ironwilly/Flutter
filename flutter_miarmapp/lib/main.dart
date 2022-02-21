@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miarmapp/screens/home_screen.dart';
 import 'package:flutter_miarmapp/screens/login_screen.dart';
 import 'package:flutter_miarmapp/screens/menu_screen.dart';
+import 'package:flutter_miarmapp/screens/profile_screen.dart';
 import 'package:flutter_miarmapp/screens/register_screen.dart';
 
 void main() {
@@ -18,12 +19,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
+      initialRoute: '/register',
       routes: {
         '/': (context) => const MenuScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
-        '/HomeScreen': (context) => const HomeScreen()
+        '/HomeScreen': (context) => const HomeScreen(),
+        '/ProfileScreen': (context) => const ProfileScreen()
       },
     );
   }

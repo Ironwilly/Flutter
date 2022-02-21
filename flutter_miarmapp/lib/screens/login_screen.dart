@@ -12,191 +12,69 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      child: ListView(shrinkWrap: true, children: <Widget>[
         backgroundColor: Color.fromRGBO(235, 239, 244, 1),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-                margin: EdgeInsets.only(top: 60),
-                child: Text(
-                  'Miarmapp',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                )),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 90.0),
-                child: Text(
-                  "Welcome back you've been missed!",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            Text(
+              'MiarmaApp',
+              style: TextStyle(
+                  fontFamily: 'miarma',
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 90.0),
             ),
             Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
                   Container(
-                    alignment: Alignment.center,
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Name',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                    width: 300,
+                    margin: EdgeInsets.only(top: 50),
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Username',
+                        border: OutlineInputBorder(),
                       ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Nick',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Surname',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Adress',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Phone',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Date of birth',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          fillColor: Colors.white,
-                          hintText: 'Password',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 300,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 50),
-                      color: Colors.white,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          fillColor: Colors.white,
-                          hintText: 'Password',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                    Container(
-                      margin: EdgeInsets.only(left: 170),
-                      child: Text(
-                        'Recovery password',
-                      ),
-                    ),
-                  
                   Container(
                     width: 300,
-                    height: 40,
+                    margin: EdgeInsets.only(top: 20, bottom: 30),
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        hintText: 'Password',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 170),
+                    child: Text(
+                      'Recovery password',
+                    ),
+                  ),
+                  Container(
+                    width: 300,
+                    height: 50,
                     margin: EdgeInsets.only(top: 20, bottom: 40),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -298,9 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ])),
             )
           ],
-        )]
-      )
-      )
-        
+        ));
   }
 }
