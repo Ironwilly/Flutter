@@ -52,106 +52,125 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
   Widget build(BuildContext context) {
     if (latSelected == 0) {
       return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/lugar.jpg",
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/lugar.jpg",
+                  ),
+                  fit: BoxFit.cover),
+            ),
+            child: const Center(
+              child: Text(
+                'NO HAY CIUDAD SELECCIONADA',
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
               ),
-              fit: BoxFit.cover),
-        ),
-        child: const Center(
-          child: Text(
-            'NO HAY CIUDAD SELECCIONADA',
-            style: TextStyle(
-                color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ));
+            ),
+          ));
     }
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
-      height: 1100,
-      decoration: const BoxDecoration(
-          color: Color.fromRGBO(0, 194, 255, 1),
-          image: DecorationImage(
-              image: AssetImage("assets/images/8.png"), fit: BoxFit.cover)),
-      // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-      child: ListView(shrinkWrap: true, children: <Widget>[
-        Row(
-          children: [
-            const Icon(Icons.location_on_outlined),
-            FutureBuilder<WeatherModel>(
-              future: currentWeather,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return name(snapshot.data!);
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/2.png",
-              scale: 5,
-            ),
-          ],
-        ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_currentWeatherTime()]),
-        Center(
-          child: Container(
-            margin:
-                const EdgeInsets.only(left: 30, right: 30, bottom: 10, top: 5),
-            width: 386,
-            height: 278,
-            padding: const EdgeInsets.only(
-                top: 10.0, bottom: 10.0, left: 10, right: 10),
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(125, 222, 252, 0.4),
-            ),
-            child: Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 310,
-                  height: 278,
-                  child: FutureBuilder<Current>(
-                      future: items2,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return _hourItem2(snapshot.data!);
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
+          height: 1100,
 
-                        return const CircularProgressIndicator();
-                      }),
+          decoration: const BoxDecoration(
+              color: Color.fromRGBO(110, 194, 255, 1),
+              image: DecorationImage(
+                  image: AssetImage("assets/images/8.png"), fit: BoxFit.cover)),
+          // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: ListView(shrinkWrap: true, children: <Widget>[
+            Row(
+              children: [
+                const Icon(Icons.location_on_outlined),
+                FutureBuilder<WeatherModel>(
+                  future: currentWeather,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return name(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
                 ),
               ],
             ),
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/2.png",
+                  scale: 5,
+                ),
+              ],
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [_currentWeatherTime()]),
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(left: 25, bottom: 20),
+                width: 400,
+                height: 278,
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 310,
+                      height: 278,
+                      child: FutureBuilder<Current>(
+                          future: items2,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return _hourItem2(snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+
+                            return const CircularProgressIndicator();
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              decoration: const BoxDecoration(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    height: 130,
+                    child: FutureBuilder<List<Hourly>>(
+                        future: items,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return _hourlyList(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+
+                          return const CircularProgressIndicator();
+                        }),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: SizedBox(
                 width: 380,
-                height: 130,
-                child: FutureBuilder<List<Hourly>>(
-                    future: items,
+                height: 510,
+                child: FutureBuilder<List<Daily>>(
+                    future: items3,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return _hourlyList(snapshot.data!);
+                        return _dailyList(snapshot.data!);
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       }
@@ -159,29 +178,9 @@ class _MyHomePageState2 extends State<PlaceSelected2> {
                       return const CircularProgressIndicator();
                     }),
               ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 10),
-          child: SizedBox(
-            width: 380,
-            height: 510,
-            child: FutureBuilder<List<Daily>>(
-                future: items3,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return _dailyList(snapshot.data!);
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-
-                  return const CircularProgressIndicator();
-                }),
-          ),
-        ),
-      ]),
-    ));
+            ),
+          ]),
+        ));
   }
 }
 
@@ -241,7 +240,6 @@ Widget _hourItem2(Current current) {
       decoration: const BoxDecoration(
         color: Color.fromRGBO(125, 222, 252, 0.4),
       ),
-      alignment: AlignmentDirectional.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -287,7 +285,7 @@ Widget _hourItem2(Current current) {
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
-              Text(current.humidity.toString() + " %       ",
+              Text(current.humidity.toString() + " %",
                   style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -308,7 +306,7 @@ Widget _hourItem2(Current current) {
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Arch')),
-              Text(current.uvi.toString() + " %         ",
+              Text(current.uvi.toString() + " %",
                   style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
