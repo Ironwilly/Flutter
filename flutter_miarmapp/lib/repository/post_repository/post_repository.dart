@@ -1,3 +1,3 @@
 abstract class PostRepository {
-  Future<List<Post>> fetchPost();
+  Future<List<Publicacion>> fetchPublicacion(String type);
 }
