@@ -137,40 +137,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     margin: const EdgeInsets.only(top: 50),
                     color: Colors.white,
                     child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Date of birth',
-                          border: OutlineInputBorder(),
-                        ),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                    title: Text(''),
-                                    content: Container(
-                                      height: 350,
-                                      child: Column(
-                                        children: <Widget>[
-                                          SfDateRangePicker(
-                                            onSelectionChanged:
-                                                _onSelectionChanged,
-                                            selectionMode:
-                                                DateRangePickerSelectionMode
-                                                    .range,
-                                            initialSelectedRange:
-                                                PickerDateRange(
-                                                    DateTime.now().subtract(
-                                                        const Duration(
-                                                            days: 4)),
-                                                    DateTime.now()
-                                                        .add(const Duration(
-                                                            days: 3))),
-                                          )
-                                        ],
-                                      ),
-                                    ));
-                              });
-                        }),
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Date of birth',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
                   Container(
                     width: 300,

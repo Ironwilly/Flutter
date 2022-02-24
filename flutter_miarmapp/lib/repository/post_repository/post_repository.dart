@@ -1,3 +1,5 @@
+import 'package:flutter_miarmapp/models/post_response.dart';
+
 abstract class PostRepository {
-  Future<List<Publicacion>> fetchPublicacion(String type);
+  Future<List<Post>> fetchPosts();
 }
