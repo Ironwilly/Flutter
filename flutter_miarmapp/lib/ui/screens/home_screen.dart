@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_miarmapp/bloc/bloc/post_bloc.dart';
 import 'package:flutter_miarmapp/models/post_response.dart';
+import 'package:flutter_miarmapp/models/user_response.dart';
 import 'package:flutter_miarmapp/repository/post_repository/post_repository.dart';
 import 'package:flutter_miarmapp/repository/post_repository/post_repository_impl.dart';
 import 'package:flutter_miarmapp/ui/screens/widgets/error_screen.dart';
@@ -69,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
               size: 20,
               color: Colors.black,
             ),
-
             
             onPressed: () {
               Navigator.of(context).push(
@@ -83,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+/*
   Widget post(String image, name) {
     return Container(
       decoration: BoxDecoration(
@@ -143,11 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
+*/
   Widget _createPost(BuildContext context) {
     return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
-        if (state is PostFetchError) {
+        if (state is PostsInitial) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is PostFetchError) {
           return ErrorPage(
             message: state.message,
             retry: () {
@@ -157,66 +160,27 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (state is PostsFetched) {
           return _createPostPublicView(context, state.posts);
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Text('Not support');
         }
       },
     );
   }
 
   Widget _createPostPublicView(BuildContext context, List<Post> posts) {
-    final contentHeight = 4.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.only(left: 20.0, right: 16.0),
-          height: 48.0,
-          child: Row(
-            children: [
-              const Expanded(
-                flex: 1,
-                child: Text(
-                  'Popular',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16.0,
-                    fontFamily: 'Muli',
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Icon(Icons.arrow_forward, color: Colors.red),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: contentHeight,
-          child: ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return _createPostItem(context, posts[index]);
-            },
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => const VerticalDivider(
-              color: Colors.transparent,
-              width: 6.0,
-            ),
-            itemCount: posts.length,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _createPostItem(BuildContext context, Post post) {
-    final width = MediaQuery.of(context).size.width / 2.6;
-    return Container(
-        child: ListView(children: <Widget>[
+    final contentHeight = 9.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
+    return ListView(children: <Widget>[
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            Text(
+              'Stories',
+              style: TextStyle(
+                  color: Colors.black.withOpacity(.8),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 19),
+            ),
             Row(
               children: <Widget>[
                 const Icon(
@@ -237,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       Container(
         padding: const EdgeInsets.only(left: 15),
-        height: 122,
+        height: 110,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
@@ -250,12 +214,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       Container(
                         width: 75,
                         height: 75,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(post.imagen.replaceAll(
-                                    'http://localhost:8080',
-                                    'http://10.0.2.2:8080')),
+                                image: AssetImage('assets/images/avatar.jpeg'),
                                 fit: BoxFit.cover)),
                       ),
                       Positioned(
@@ -285,7 +247,75 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      )
-    ]));
+      ),
+      Container(
+        child: SizedBox(
+          height: contentHeight,
+          child: ListView.separated(
+            itemBuilder: (BuildContext context, int index) {
+              return _createPostItem(context, posts[index]);
+            },
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            scrollDirection: Axis.vertical,
+            separatorBuilder: (context, index) => const VerticalDivider(
+              color: Colors.transparent,
+              width: 6.0,
+            ),
+            itemCount: posts.length,
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  Widget _createPostItem(BuildContext context, Post post) {
+    final width = MediaQuery.of(context).size.width / 2.6;
+    return Center(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+          Container(
+              height: 240,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: NetworkImage(post.avatar.replaceAll(
+                    'http://localhost:8080', 'http://10.0.2.2:8080')),
+                //image: NetworkImage(post.imagen.replaceAll(
+                //    'http://localhost:8080', 'http://10.0.2.2:8080')),
+              ))),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: const <Widget>[
+                    Icon(Icons.favorite_border, size: 25),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.comment_sharp, size: 25),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.send, size: 25),
+                  ],
+                ),
+                const Icon(Icons.bookmark_border, size: 25)
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              'Probando este texto mismo',
+              style:
+                  TextStyle(fontSize: 12, color: Colors.black.withOpacity(.7)),
+            ),
+          ),
+          Divider(
+            thickness: 2,
+          ),
+        ]));
   }
 }
