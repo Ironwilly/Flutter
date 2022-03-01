@@ -282,6 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'http://localhost:8080', 'http://10.0.2.2:8080')),
                 //image: NetworkImage(post.imagen.replaceAll(
                 //    'http://localhost:8080', 'http://10.0.2.2:8080')),
+                //
               ))),
           Padding(
             padding: const EdgeInsets.all(8.0),
