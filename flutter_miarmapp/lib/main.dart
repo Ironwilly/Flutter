@@ -16,10 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MiarmApp',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/HomeScreen',
+      initialRoute: '/login',
       routes: {
         '/': (context) => const MenuScreen(),
         '/login': (context) => const LoginScreen(),

@@ -1,5 +1,3 @@
 class Constants {
-  static String apikey = "";
- 
-  
+  static String TOKEN = "";
 }
