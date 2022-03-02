@@ -8,6 +8,7 @@ import 'package:flutter_miarmapp/repository/auth_repository/auth_repository.dart
 import 'package:flutter_miarmapp/repository/auth_repository/auth_repository_impl.dart';
 import 'package:flutter_miarmapp/repository/constants.dart';
 import 'package:flutter_miarmapp/ui/screens/home_screen.dart';
+import 'package:flutter_miarmapp/ui/screens/menu_screen.dart';
 import 'package:flutter_miarmapp/ui/screens/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,19 +23,15 @@ class _LoginScreenState extends State<LoginScreen> {
   late AuthRepository authRepository;
 
   final _formKey = GlobalKey<FormState>();
-  late SharedPreferences sharedPreferences;
+  late Future<SharedPreferences> _sharedPreferences;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  _initSharedPreferences() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
 
   @override
   void initState() {
     super.initState();
     authRepository = AuthRepositoryImpl();
-    _initSharedPreferences();
+    _sharedPreferences = SharedPreferences.getInstance();
   }
 
   @override
@@ -53,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _createBody(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromRGBO(235, 239, 244, 1),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,20 +65,19 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
                 color: Color.fromARGB(255, 255, 255, 255),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(50),
                 child: BlocConsumer<LoginBloc, LoginState>(
                     listenWhen: (context, state) {
                   return state is LoginSuccessState || state is LoginErrorState;
-                }, listener: (context, state) {
+                }, listener: (context, state) async {
                   if (state is LoginSuccessState) {
-                    SharedPreferences.getInstance(
-                        Constants.BEARER_TOKEN, state.loginResponse.token);
+                    _loginSuccess(context, state.loginResponse);
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
-                    );
+                    // Navigator.push(
+                    // context,
+                    //MaterialPageRoute(
+                    //  builder: (context) => const HomeScreen()),
+                    //);
                   } else if (state is LoginErrorState) {
                     _showSnackbar(context, state.message);
                   }
@@ -98,72 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 })),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 90.0),
-            ),
-            Text('----- Or continue with -----'),
-            Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              width: 4.0),
-                          color: Color.fromRGBO(235, 239, 244, 1)),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/google.png',
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              width: 4.0),
-                          color: Color.fromRGBO(235, 239, 244, 1)),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/apple.png',
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              width: 4.0),
-                          color: Color.fromRGBO(235, 239, 244, 1)),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/facebook.png',
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
             Container(
               margin: EdgeInsets.only(top: 50),
@@ -188,6 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           ],
         ));
+  }
+
+  Future<void> _loginSuccess(
+      BuildContext context, LoginResponse loginResponse) async {
+    _sharedPreferences.then((SharedPreferences sharedPreferences) {
+      sharedPreferences.setString('token', loginResponse.token);
+      sharedPreferences.setString('avatar', loginResponse.avatar);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MenuScreen()),
+      );
+    });
   }
 
   void _showSnackbar(BuildContext context, String message) {
@@ -268,6 +212,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    final loginDto = LoginDto(
+                        email: emailController.text,
+                        password: passwordController.text);
+                    BlocProvider.of<LoginBloc>(context)
+                        .add(DoLoginEvent(loginDto));
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Processing Data')),
                     );

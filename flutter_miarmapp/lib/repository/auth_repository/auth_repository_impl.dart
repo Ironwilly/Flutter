@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_miarmapp/models/login_dto.dart';
 import 'package:flutter_miarmapp/models/login_response.dart';
+import 'package:flutter_miarmapp/models/register_response.dart';
+import 'package:flutter_miarmapp/models/register_dto.dart';
 import 'package:flutter_miarmapp/repository/auth_repository/auth_repository.dart';
 import 'package:http/http.dart';
 
@@ -12,7 +14,7 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<LoginResponse> login(LoginDto loginDto) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${TOKEN['TOKEN']}'
+      // 'Authorization': 'Bearer $token'
     };
 
     final response = await _client.post(
@@ -24,5 +26,11 @@ class AuthRepositoryImpl extends AuthRepository {
     } else {
       throw Exception('Fail to login');
     }
+  }
+
+  @override
+  Future<RegisterResponse> register(RegisterDto registerDto, String ImagePath) {
+    // TODO: implement register
+    throw UnimplementedError();
   }
 }

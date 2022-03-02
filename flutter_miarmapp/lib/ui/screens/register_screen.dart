@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             textAlign: TextAlign.center,
           )),
           Container(
-            height: 400,
+            height: 600,
             child: ListView(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 scrollDirection: Axis.vertical,
@@ -209,74 +209,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ]),
-          ),
-          Text('----- Or continue with -----'),
-          Container(
-            width: 450,
-            height: 80,
-            margin: EdgeInsets.only(top: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            width: 4.0),
-                        color: Color.fromRGBO(235, 239, 244, 1)),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/google.png',
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            width: 4.0),
-                        color: Color.fromRGBO(235, 239, 244, 1)),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/apple.png',
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            width: 4.0),
-                        color: Color.fromRGBO(235, 239, 244, 1)),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/facebook.png',
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ]));
   }
