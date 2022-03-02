@@ -13,11 +13,7 @@ class PostRepositoryImpl extends PostRepository {
     final response = await _client
         .get(Uri.parse('http://10.0.2.2:8080/post/public'), headers: {
       'Authorization':
-<<<<<<< HEAD
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhYzFiMDJhZC03ZjQ1LTExNTctODE3Zi00NTcxN2YwZjAwMDAiLCJpYXQiOjE2NDYyMjM5NDQsIm5vbWJyZSI6IldpbGx5IiwiYXBlbGxpZG9zIjoiZmVycmFyaSBmZXJyYXJpIiwicm9sZSI6IlVTRVIifQ.eZkuX9LoucF1GhEGIG9MPpPmSD3ZIOp-krPGBCgDtM5KiFJg2pb0IwSuZ4ubZWu-'
-=======
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhYzE4OTAwMS03ZjNiLTFkNzEtODE3Zi0zYjhmZDBlZjAwMDAiLCJpYXQiOjE2NDYwNTgxNTksIm5vbWJyZSI6IldpbGx5IiwiYXBlbGxpZG9zIjoiZmVycmFyaSBmZXJyYXJpIiwicm9sZSI6IlVTRVIifQ.R9Jg2of7ELiCclNm2jrlHjhSC9iIg0W_kOhSsP4CIS7IsAv2-_NRR8oyrUS7gyQL'
->>>>>>> b875b562741ccaceb8b359c831905139eed907c4
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhYzE4OTAwMS03ZjQ3LTE2MDAtODE3Zi00Nzg3ZmY2YzAwMDAiLCJpYXQiOjE2NDYyNTg5NzUsIm5vbWJyZSI6IldpbGx5IiwiYXBlbGxpZG9zIjoiZmVycmFyaSBmZXJyYXJpIiwicm9sZSI6IlVTRVIifQ.8zQWYx-CduLl8y42VEfqyVYoVOoxlWzfDtB21sxHZpsWsjmVOSEJWDojmErbzJC7'
     });
     if (response.statusCode == 200) {
       return List.from(json.decode(response.body))

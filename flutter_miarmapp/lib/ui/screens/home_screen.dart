@@ -8,6 +8,7 @@ import 'package:flutter_miarmapp/repository/post_repository/post_repository.dart
 import 'package:flutter_miarmapp/repository/post_repository/post_repository_impl.dart';
 import 'package:flutter_miarmapp/ui/screens/widgets/error_screen.dart';
 import 'package:flutter_miarmapp/widgets/home_app_bar.dart';
+import 'package:http/http.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -63,88 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onPressed: () {},
               ),
-              /*
-          IconButton(
-            icon: const Icon(
-              Icons.send,
-              size: 20,
-              color: Colors.black,
-            ),
-            
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const ChatPage()));
-            },
-          ),
-          */
             ],
           ),
           body: _createPost(context)),
     );
   }
 
-/*
-  Widget post(String image, name) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.grey.withOpacity(.3)))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/avatar.jpeg'),
-            ),
-            title: Text(
-              name,
-              style: TextStyle(
-                  color: Colors.black.withOpacity(.8),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 21),
-            ),
-            trailing: const Icon(Icons.more_vert),
-          ),
-          Image.asset(
-            image,
-            fit: BoxFit.cover,
-            width: double.infinity,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: const <Widget>[
-                    Icon(Icons.favorite_border, size: 31),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Icon(Icons.comment_sharp, size: 31),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Icon(Icons.send, size: 31),
-                  ],
-                ),
-                const Icon(Icons.bookmark_border, size: 31)
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-            child: Text(
-              'liked by you and 385 others',
-              style:
-                  TextStyle(fontSize: 16, color: Colors.black.withOpacity(.8)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-*/
   Widget _createPost(BuildContext context) {
     return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
@@ -167,87 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _createPostPublicView(BuildContext context, List<Post> posts) {
-    final contentHeight = 9.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
+    final contentHeight = 12.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
     return ListView(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'Stories',
-              style: TextStyle(
-                  color: Colors.black.withOpacity(.8),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 19),
-            ),
-            Row(
-              children: <Widget>[
-                const Icon(
-                  Icons.arrow_right,
-                  size: 43,
-                ),
-                Text(
-                  'Watch All',
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(.8),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 19),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      Container(
-        padding: const EdgeInsets.only(left: 15),
-        height: 110,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 75,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage('assets/images/avatar.jpeg'),
-                                fit: BoxFit.cover)),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: -1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white)),
-                          child: const Icon(Icons.add, color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Mi historia',
-                    style: TextStyle(
-                        color: Colors.black.withOpacity(.8),
-                        fontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
       Container(
         child: SizedBox(
           height: contentHeight,
@@ -271,52 +117,80 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _createPostItem(BuildContext context, Post post) {
     final width = MediaQuery.of(context).size.width / 2.6;
     return Center(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+            Widget>[
+      Container(
+        width: 380,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          // border:
+          //  Border(top: BorderSide(color: Colors.blue.withOpacity(.3))
+          //)
+        ),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-          Container(
-              height: 240,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: NetworkImage(post.avatar.replaceAll(
-                    'http://localhost:8080', 'http://10.0.2.2:8080')),
-                //image: NetworkImage(post.imagen.replaceAll(
-                //    'http://localhost:8080', 'http://10.0.2.2:8080')),
-                //
-              ))),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: const <Widget>[
-                    Icon(Icons.favorite_border, size: 25),
-                    SizedBox(
-                      width: 12,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    child: Image.network(
+                      'http://10.0.2.2' + post.avatar!.substring(16),
+                      width: 30,
+                      fit: BoxFit.cover,
                     ),
-                    Icon(Icons.comment_sharp, size: 25),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Icon(Icons.send, size: 25),
-                  ],
+                  ),
                 ),
-                const Icon(Icons.bookmark_border, size: 25)
+                Text(
+                  post.userNick,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                )
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Text(
-              'Probando este texto mismo',
-              style:
-                  TextStyle(fontSize: 12, color: Colors.black.withOpacity(.7)),
+          ],
+        ),
+      ),
+      Container(
+          height: 240,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: NetworkImage(post.imagen
+                .replaceAll('http://localhost:8080', 'http://10.0.2.2:8080')),
+          ))),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: const <Widget>[
+                Icon(Icons.favorite_border, size: 25),
+                SizedBox(
+                  width: 12,
+                ),
+                Icon(Icons.comment_sharp, size: 25),
+                SizedBox(
+                  width: 12,
+                ),
+                Icon(Icons.send, size: 25),
+              ],
             ),
-          ),
-          Divider(
-            thickness: 2,
-          ),
-        ]));
+            const Icon(Icons.bookmark_border, size: 25)
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Text(
+          'Probando este texto mismo',
+          style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(.7)),
+        ),
+      ),
+      Divider(
+        thickness: 2,
+      ),
+    ]));
   }
 }
