@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircleAvatar(
                     backgroundColor: Colors.grey,
                     child: Image.network(
-                      'http://10.0.2.2' + post.avatar!.substring(16),
+                      'http://10.0.2.2' + post.avatar.substring(16),
                       width: 30,
                       fit: BoxFit.cover,
                     ),
