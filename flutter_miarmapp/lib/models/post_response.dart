@@ -56,7 +56,6 @@ class Post {
   late final String imagen;
   late final bool isPublic;
   late final User user;
-
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     titulo = json['titulo'];
@@ -65,7 +64,6 @@ class Post {
     isPublic = json['isPublic'];
     user = User.fromJson(json['user']);
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -77,7 +75,6 @@ class Post {
     return _data;
   }
 }
-
 class User {
   User({
     required this.id,
@@ -119,7 +116,6 @@ class User {
   late final bool accountNonLocked;
   late final bool credentialsNonExpired;
   late final bool accountNonExpired;
-
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nombre = json['nombre'];
@@ -143,7 +139,6 @@ class User {
     credentialsNonExpired = json['credentialsNonExpired'];
     accountNonExpired = json['accountNonExpired'];
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -168,17 +163,14 @@ class User {
     return _data;
   }
 }
-
 class Authorities {
   Authorities({
     required this.authority,
   });
   late final String authority;
-
   Authorities.fromJson(Map<String, dynamic> json) {
     authority = json['authority'];
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['authority'] = authority;

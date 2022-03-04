@@ -6,17 +6,19 @@ part 'post_event.dart';
 part 'post_state.dart';
 
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
-  PostsBloc(PostRepository postRepository) : super(PostsInitial()) {
-    on<FetchPostPublic>((event, emit) {});
+  final PostRepository postRepository;
 
-    void _postsFetched(FetchPostPublic event, Emitter<PostsState> emit) async {
-      try {
-        final posts = await postRepository.fetchPosts();
-        emit(PostsFetched(posts));
-        return;
-      } on Exception catch (e) {
-        emit(PostFetchError(e.toString()));
-      }
+  PostsBloc(this.postRepository) : super(PostsInitial()) {
+    on<FetchPostPublic>(_postsFetched);
+  }
+
+  void _postsFetched(FetchPostPublic event, Emitter<PostsState> emit) async {
+    try {
+      final posts = await postRepository.fetchPosts();
+      emit(PostsFetched(posts));
+      return;
+    } on Exception catch (e) {
+      emit(PostFetchError(e.toString()));
     }
   }
 }

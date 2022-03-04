@@ -88,7 +88,9 @@ class _MenuScreenState extends State<MenuScreen> {
                               : Colors.transparent,
                           width: 1)),
                   child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
                     child: CircleAvatar(
+                      backgroundColor: Colors.grey,
                       child: _createBottonBar(context),
                     ),
                   ),
@@ -121,6 +123,8 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _createBottonBarView(BuildContext context, MeResponse meResponse) {
+    final width = MediaQuery.of(context).size.width / 2.6;
+
     return CircleAvatar(
         child: Container(
       width: 35.0,
