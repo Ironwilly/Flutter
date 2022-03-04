@@ -11,8 +11,7 @@ class MeRepositoryImpl extends MeRepository {
   @override
   Future<MeResponse> fetchMe() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await _client.get(
-        Uri.parse('http://10.0.2.2:8080/post/public'),
+    final response = await _client.get(Uri.parse('http://10.0.2.2:8080/me'),
         headers: {'Authorization': 'Bearer ${prefs.getString('token')}'});
     if (response.statusCode == 200) {
       return MeResponse.fromJson(json.decode(response.body));

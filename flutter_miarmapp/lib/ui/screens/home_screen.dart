@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _createPostPublicView(BuildContext context, List<Post> posts) {
-    final contentHeight = 12.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
+    final contentHeight = 12.0 * (MediaQuery.of(context).size.width / 2.7) / 3;
     return ListView(children: <Widget>[
       Container(
         child: SizedBox(
@@ -117,80 +117,85 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _createPostItem(BuildContext context, Post post) {
     final width = MediaQuery.of(context).size.width / 2.6;
     return Center(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-            Widget>[
-      Container(
-        width: 380,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // border:
-          //  Border(top: BorderSide(color: Colors.blue.withOpacity(.3))
-          //)
-        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+          Container(
+            width: 380,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              // border:
+              //  Border(top: BorderSide(color: Colors.blue.withOpacity(.3))
+              //)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    child: Image.network(
-                      'http://10.0.2.2' + post.avatar.substring(16),
-                      width: 30,
-                      fit: BoxFit.cover,
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        child: Image.network(
+                          'http://10.0.2.2' + post.avatar.substring(16),
+                          width: 30,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                    Text(
+                      post.userNick,
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    )
+                  ],
                 ),
-                Text(
-                  post.userNick,
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-                )
               ],
             ),
-          ],
-        ),
-      ),
-      Container(
-          height: 240,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            image: NetworkImage(post.imagen
-                .replaceAll('http://localhost:8080', 'http://10.0.2.2:8080')),
-          ))),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: const <Widget>[
-                Icon(Icons.favorite_border, size: 25),
-                SizedBox(
-                  width: 12,
+          ),
+          Container(
+              height: 390,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                        post.imagen.replaceAll(
+                            'http://localhost:8080', 'http://10.0.2.2:8080'),
+                      ),
+                      fit: BoxFit.cover))),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: const <Widget>[
+                    Icon(Icons.favorite_border, size: 25),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.comment_sharp, size: 25),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.send, size: 25),
+                  ],
                 ),
-                Icon(Icons.comment_sharp, size: 25),
-                SizedBox(
-                  width: 12,
-                ),
-                Icon(Icons.send, size: 25),
+                const Icon(Icons.bookmark_border, size: 25)
               ],
             ),
-            const Icon(Icons.bookmark_border, size: 25)
-          ],
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Text(
-          'Probando este texto mismo',
-          style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(.7)),
-        ),
-      ),
-      Divider(
-        thickness: 2,
-      ),
-    ]));
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              post.descripcion,
+              style:
+                  TextStyle(fontSize: 12, color: Colors.black.withOpacity(.7)),
+            ),
+          ),
+          Divider(
+            thickness: 2,
+          ),
+        ]));
   }
 }

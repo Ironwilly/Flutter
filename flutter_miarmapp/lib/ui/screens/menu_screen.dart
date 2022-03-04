@@ -88,9 +88,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               : Colors.transparent,
                           width: 1)),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey,
                       child: _createBottonBar(context),
                     ),
                   ),
@@ -123,15 +121,17 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _createBottonBarView(BuildContext context, MeResponse meResponse) {
-    final width = MediaQuery.of(context).size.width / 2.6;
-    print('http://10.0.2.2' + meResponse.avatar.substring(16));
     return CircleAvatar(
-      backgroundColor: Colors.grey,
-      child: Image.asset(
-        'http://10.0.2.2' + meResponse.avatar.substring(16),
-        width: 30,
-        fit: BoxFit.cover,
-      ),
-    );
+        child: Container(
+      width: 35.0,
+      height: 35.0,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(meResponse.avatar
+                  .toString()
+                  .replaceFirst('localhost', '10.0.2.2')))),
+    ));
   }
 }
