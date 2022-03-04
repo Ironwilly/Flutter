@@ -9,6 +9,7 @@ import 'package:flutter_miarmapp/repository/me/me_repository_imp.dart';
 import 'package:flutter_miarmapp/repository/post_repository/post_repository.dart';
 import 'package:flutter_miarmapp/repository/post_repository/post_repository_impl.dart';
 import 'package:flutter_miarmapp/ui/screens/widgets/error_screen.dart';
+import 'package:http/http.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -37,26 +38,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return MeBloc(meRepository)..add(const FetchMeEvent());
+        return PostsBloc(postRepository)..add(const FetchPostPublic());
       },
       child: _createProfile(context),
     );
   }
 
   Widget _createProfile(BuildContext context) {
-    return BlocBuilder<MeBloc, MeState>(
+    return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
-        if (state is MeInitial) {
+        if (state is PostsInitial) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is MeFetchedError) {
+        } else if (state is PostFetchError) {
           return ErrorPage(
             message: state.message,
             retry: () {
-              context.watch<MeBloc>().add(FetchMeEvent());
+              context.watch<PostsBloc>().add(FetchPostPublic());
             },
           );
-        } else if (state is MeFetched) {
-          return _profile(context, state.meResponse);
+        } else if (state is PostsFetched) {
+          return _profile(context, state.posts[0]);
         } else {
           return const Text('Not support');
         }
@@ -64,14 +65,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _profile(BuildContext context, MeResponse meResponse) {
+  Widget _profile(BuildContext context, Post post) {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
           title: Text(
-            meResponse.nick,
+            post.user.nick,
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           ),
@@ -103,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(meResponse.avatar
+                              image: NetworkImage(post.user.avatar
                                   .toString()
                                   .replaceFirst('localhost', '10.0.2.2'))),
                         ),
@@ -117,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   TextButton(
                                     onPressed: null,
                                     child: Text(
-                                      meResponse.email.length.toString(),
+                                      post.user.email.length.toString(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black),
@@ -132,12 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Column(
                                 children: [
                                   TextButton(
-                                    onPressed: () {
-                                      /*Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const FollowPage()));*/
-                                    },
+                                    onPressed: () {},
                                     child: Text(
                                       "Followers",
                                       style: TextStyle(
@@ -158,12 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   TextButton(
-                                      onPressed: () {
-                                        /*Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const FollowPage()));*/
-                                      },
+                                      onPressed: () {},
                                       child: Text("832",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -182,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
-                        child: Text(meResponse.nick.toString()),
+                        child: Text(post.user.nick.toString()),
                       ),
                     ],
                   ),
@@ -191,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
-                          meResponse.nombre,
+                          post.user.nombre,
                           style: TextStyle(color: Colors.grey),
                         ),
                       )
@@ -210,22 +201,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             "Edit Profile",
                             style: TextStyle(color: Colors.black),
                           )))
-
-                  /* Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 120.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.white),
-                        onPressed: () {},
-                        child: const Text(
-                          "Edit Profile",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),*/
                 ],
               ),
               const Divider(
@@ -244,10 +219,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(
                 width: 20,
               ),
-
-              /*Image(  image: NetworkImage(user.publicaciones.elementAt(0).file.toString().replaceFirst('localhost', '10.0.2.2')),
-                        
-                        ),*/
               Flexible(
                 child: GridView.builder(
                     gridDelegate:
@@ -258,20 +229,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       return Card(
                           color: Colors.white,
                           child: Image(
-                            image: NetworkImage(meResponse.avatar
+                            image: NetworkImage(post.imagen
                                 .toString()
                                 .replaceFirst('localhost', '10.0.2.2')),
                             fit: BoxFit.cover,
                           ));
                     }),
               ),
-              /*Container(
-                width: 120,
-                height: 150,
-                child: Image(
-                  image: AssetImage('assets/images/luismi.png'),
-                  fit: BoxFit.contain,
-                )),*/
               const SizedBox(
                 width: 20,
               ),
@@ -331,7 +295,7 @@ Widget _createPostItemProfile(BuildContext context, Post post) {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          post.userNick,
+          post.user.nick,
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
         ),
@@ -363,7 +327,7 @@ Widget _createPostItemProfile(BuildContext context, Post post) {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(post.avatar
+                            image: NetworkImage(post.user.avatar
                                 .toString()
                                 .replaceFirst('localhost', '10.0.2.2'))),
                       ),
@@ -417,50 +381,12 @@ Widget _createPostItemProfile(BuildContext context, Post post) {
                             const SizedBox(
                               width: 10,
                             ),
-                            Column(
-                                /*
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const FollowPage()));
-                                  },
-                                  child: Text(
-                                    "1.174",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                                Text(
-                                  "followers",
-                                ),
-                              ],
-                              */
-                                ),
+                            Column(),
                             const SizedBox(
                               width: 5,
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              /*
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const FollowPage()));
-                                    },
-                                    child: Text("832",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black))),
-                                Text("following"),
-                              ],
-                              */
                             ),
                           ],
                         ),
@@ -499,21 +425,6 @@ Widget _createPostItemProfile(BuildContext context, Post post) {
                           "Edit Profile",
                           style: TextStyle(color: Colors.black),
                         )))
-                /* Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 120.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.white),
-                        onPressed: () {},
-                        child: const Text(
-                          "Edit Profile",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),*/
               ],
             ),
             const Divider(
@@ -532,38 +443,6 @@ Widget _createPostItemProfile(BuildContext context, Post post) {
                         icon: const Icon(Icons.person_search)),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                        width: 90,
-                        height: 150,
-                        child: const Image(
-                          image: AssetImage("assets/images/avatar.jpeg"),
-                          fit: BoxFit.contain,
-                        )),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                        width: 90,
-                        height: 150,
-                        child: const Image(
-                          image: AssetImage("assets/images/miguel.jpg"),
-                          fit: BoxFit.contain,
-                        )),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                        width: 90,
-                        height: 150,
-                        child: const Image(
-                          image: AssetImage("assets/images/avatar.jpeg"),
-                          fit: BoxFit.contain,
-                        ))
-                  ],
-                )
               ],
             )
           ],

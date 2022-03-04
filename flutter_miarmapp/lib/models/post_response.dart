@@ -1,4 +1,4 @@
-class Post {
+/*class Post {
   Post({
     required this.id,
     required this.titulo,
@@ -38,9 +38,8 @@ class Post {
     return _data;
   }
 }
+*/
 
-
-/*
 class Post {
   Post({
     required this.id,
@@ -56,6 +55,7 @@ class Post {
   late final String imagen;
   late final bool isPublic;
   late final User user;
+
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     titulo = json['titulo'];
@@ -64,6 +64,7 @@ class Post {
     isPublic = json['isPublic'];
     user = User.fromJson(json['user']);
   }
+
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -75,6 +76,7 @@ class Post {
     return _data;
   }
 }
+
 class User {
   User({
     required this.id,
@@ -89,13 +91,12 @@ class User {
     required this.password,
     required this.rol,
     required this.isPublic,
-    required this.posts,
     required this.enabled,
+    required this.accountNonExpired,
+    required this.credentialsNonExpired,
     required this.authorities,
     required this.username,
     required this.accountNonLocked,
-    required this.credentialsNonExpired,
-    required this.accountNonExpired,
   });
   late final String id;
   late final String nombre;
@@ -109,13 +110,13 @@ class User {
   late final String password;
   late final String rol;
   late final bool isPublic;
-  late final List<dynamic> posts;
   late final bool enabled;
+  late final bool accountNonExpired;
+  late final bool credentialsNonExpired;
   late final List<Authorities> authorities;
   late final String username;
   late final bool accountNonLocked;
-  late final bool credentialsNonExpired;
-  late final bool accountNonExpired;
+
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nombre = json['nombre'];
@@ -129,16 +130,16 @@ class User {
     password = json['password'];
     rol = json['rol'];
     isPublic = json['isPublic'];
-    posts = List.castFrom<dynamic, dynamic>(json['posts']);
     enabled = json['enabled'];
+    accountNonExpired = json['accountNonExpired'];
+    credentialsNonExpired = json['credentialsNonExpired'];
     authorities = List.from(json['authorities'])
         .map((e) => Authorities.fromJson(e))
         .toList();
     username = json['username'];
     accountNonLocked = json['accountNonLocked'];
-    credentialsNonExpired = json['credentialsNonExpired'];
-    accountNonExpired = json['accountNonExpired'];
   }
+
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -153,28 +154,29 @@ class User {
     _data['password'] = password;
     _data['rol'] = rol;
     _data['isPublic'] = isPublic;
-    _data['posts'] = posts;
     _data['enabled'] = enabled;
+    _data['accountNonExpired'] = accountNonExpired;
+    _data['credentialsNonExpired'] = credentialsNonExpired;
     _data['authorities'] = authorities.map((e) => e.toJson()).toList();
     _data['username'] = username;
     _data['accountNonLocked'] = accountNonLocked;
-    _data['credentialsNonExpired'] = credentialsNonExpired;
-    _data['accountNonExpired'] = accountNonExpired;
     return _data;
   }
 }
+
 class Authorities {
   Authorities({
     required this.authority,
   });
   late final String authority;
+
   Authorities.fromJson(Map<String, dynamic> json) {
     authority = json['authority'];
   }
+
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['authority'] = authority;
     return _data;
   }
 }
-*/

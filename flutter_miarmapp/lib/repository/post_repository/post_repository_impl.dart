@@ -12,9 +12,13 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future<List<Post>> fetchPosts() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await _client.get(
-        Uri.parse('http://10.0.2.2:8080/post/public'),
-        headers: {'Authorization': 'Bearer ${prefs.getString('token')}'});
+
+    final response = await _client
+        .get(Uri.parse('http://10.0.2.2:8080/post/public'), headers: {
+      'Authorization': 'Bearer ${prefs.getString('token')}',
+      'Content-type': 'application/json',
+      'Connection': 'keep-alive'
+    });
     if (response.statusCode == 200) {
       return List.from(json.decode(response.body))
           .map((e) => Post.fromJson(e))
