@@ -175,6 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: 'Password',
                 border: OutlineInputBorder(),
               ),
+              obscureText: true,
               onSaved: (String? value) {},
               validator: (value) {
                 if (value == null || value.isEmpty) {

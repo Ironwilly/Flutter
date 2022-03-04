@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   TextButton(
                                     onPressed: () {},
                                     child: Text(
-                                      "Followers",
+                                      "1",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black),
@@ -223,8 +223,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                      crossAxisCount: 4,
                     ),
+                    //itemCount: post.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Card(
                           color: Colors.white,
